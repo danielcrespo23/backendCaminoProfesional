@@ -55,5 +55,23 @@ class AccesoDatos {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    // Guardar comentario
+    public function guardarComentario($nombre, $texto) {
+        $query = "INSERT INTO comentarios (NOMBRE, texto_comentario, fecha_creacion)
+                  VALUES (:nombre, :texto, NOW())";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':texto', $texto);
+        return $stmt->execute();
+    }
+
+    // Obtener todos los comentarios
+    public function getComentarios() {
+        $query = "SELECT NOMBRE, texto_comentario, fecha_creacion FROM comentarios ORDER BY fecha_creacion DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
 ?>

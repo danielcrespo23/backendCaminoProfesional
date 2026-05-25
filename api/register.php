@@ -23,14 +23,15 @@ $data = json_decode(file_get_contents("php://input"), true);
 $email    = trim($data['email'] ?? '');
 $nombre   = trim($data['nombre'] ?? '');
 $apellido = trim($data['apellido'] ?? '');
+$clave    = trim($data['clave'] ?? '');
 $telefono = trim($data['telefono'] ?? '');
 $grados   = trim($data['grados'] ?? '');
 
-if (empty($email) || empty($nombre) || empty($apellido)) {
+if (empty($email) || empty($nombre) || empty($apellido) || empty($clave)) {
     http_response_code(400);
     echo json_encode([
-        'success' => false, 
-        'message' => 'Email, nombre y apellido son obligatorios'
+        'success' => false,
+        'message' => 'Email, nombre, apellido y contraseña son obligatorios'
     ]);
     exit();
 }
@@ -43,15 +44,15 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 try {
     $db = AccesoDatos::getModelo();
-    
+
     $usuarioExistente = $db->getUsuarioPorEmail($email);
     if ($usuarioExistente) {
         http_response_code(409);
         echo json_encode(['success' => false, 'message' => 'El email ya está registrado']);
         exit();
     }
-    
-    $resultado = $db->crearUsuario($email, $nombre, $apellido, $telefono, $grados, '1234');
+
+    $resultado = $db->crearUsuario($email, $nombre, $apellido, $telefono, $grados, $clave);
     
     if ($resultado) {
         http_response_code(201);
