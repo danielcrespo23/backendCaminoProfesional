@@ -1,0 +1,423 @@
+<app-header />
+
+<article>
+  <!-- HERO -->
+  <section class="hero-grado">
+    <video autoplay muted loop playsinline class="video-fondo">
+      <source src="videosPaginas/videoSmr.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content-grado">
+      <h1>Sistemas Microinformáticos y Redes</h1>
+      <p class="hero-subtitle">Tu primer paso en informática: hardware, redes y soporte técnico desde cero</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <i class="fas fa-clock"></i>
+          <span>2 años</span>
+          <small>Duración</small>
+        </div>
+        <div class="stat">
+          <i class="fas fa-briefcase"></i>
+          <span>85%</span>
+          <small>Empleabilidad</small>
+        </div>
+        <div class="stat">
+          <i class="fas fa-euro-sign"></i>
+          <span>18-28k€</span>
+          <small>Salario inicial</small>
+        </div>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn-primary" (click)="scrollToFormulario()">Solicitar información</button>
+        <button class="btn-secondary" (click)="descargarPDF()">
+          <i class="fas fa-download"></i> Plan de estudios
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUÉ ES SMR -->
+  <section class="que-es">
+    <div class="container">
+      <div class="grid-2col">
+        <div class="texto">
+          <h2>¿Qué es SMR?</h2>
+          <p>
+            El Ciclo Formativo de Grado Medio en <strong>Sistemas Microinformáticos y Redes</strong>
+            es el punto de entrada ideal al mundo de la informática. Aprenderás a instalar,
+            configurar y mantener equipos y redes de área local.
+          </p>
+          <p>
+            Es la base perfecta para incorporarte al mercado laboral como <strong>técnico de soporte</strong>
+            y, si quieres seguir creciendo, acceder después a ciclos superiores como
+            <strong>ASIR, DAW o DAM</strong>.
+          </p>
+          <div class="tecnologias">
+            <h3>Tecnologías que aprenderás:</h3>
+            <div class="tech-badges">
+              <span class="badge">Windows</span>
+              <span class="badge">Linux</span>
+              <span class="badge">Cisco básico</span>
+              <span class="badge">TCP/IP</span>
+              <span class="badge">Office 365</span>
+              <span class="badge">Hardware PC</span>
+              <span class="badge">Wi-Fi</span>
+              <span class="badge">Impresoras</span>
+              <span class="badge">Ticketing</span>
+              <span class="badge">Virtualización</span>
+            </div>
+          </div>
+        </div>
+        <div class="imagen">
+          <img src="imagenesgrados/SMR.webp" alt="Sistemas Microinformáticos y Redes">
+          <div class="destacado">
+            <i class="fas fa-tools"></i>
+            <p>"SMR es la puerta de entrada más directa al sector IT"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAN DE ESTUDIOS -->
+  <section class="plan-estudios">
+    <div class="container">
+      <h2>Plan de Estudios</h2>
+      <p class="subtitulo">Formación práctica en hardware, redes y soporte técnico</p>
+
+      <div class="tabs">
+        <button [class.active]="cursoActivo === 1" (click)="cursoActivo = 1">Primer Curso</button>
+        <button [class.active]="cursoActivo === 2" (click)="cursoActivo = 2">Segundo Curso</button>
+      </div>
+
+      @if (cursoActivo === 1) {
+        <div class="modulos-grid">
+          <div class="modulo-card" (click)="toggleModulo('montaje1')">
+            <div class="modulo-icon"><i class="fas fa-microchip"></i></div>
+            <h3>Montaje y Mantenimiento de Equipos</h3>
+            <p class="modulo-horas">192 horas</p>
+            @if (moduloAbierto === 'montaje1') {
+              <div class="modulo-detalle">
+                <p>Ensamblaje, reparación y mantenimiento de ordenadores y periféricos.</p>
+                <ul>
+                  <li>Componentes de un PC</li>
+                  <li>Ensamblaje y despiece</li>
+                  <li>Diagnóstico de averías</li>
+                  <li>Periféricos e impresoras</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('sistemas1')">
+            <div class="modulo-icon"><i class="fas fa-desktop"></i></div>
+            <h3>Sistemas Operativos Monopuesto</h3>
+            <p class="modulo-horas">165 horas</p>
+            @if (moduloAbierto === 'sistemas1') {
+              <div class="modulo-detalle">
+                <p>Instalación y configuración básica de Windows y Linux.</p>
+                <ul>
+                  <li>Windows 10/11</li>
+                  <li>Linux Ubuntu básico</li>
+                  <li>Gestión de usuarios y permisos</li>
+                  <li>Copias de seguridad</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('redes1')">
+            <div class="modulo-icon"><i class="fas fa-network-wired"></i></div>
+            <h3>Redes Locales</h3>
+            <p class="modulo-horas">165 horas</p>
+            @if (moduloAbierto === 'redes1') {
+              <div class="modulo-detalle">
+                <p>Instalación y configuración de redes de área local.</p>
+                <ul>
+                  <li>Cableado estructurado</li>
+                  <li>Switches y routers básicos</li>
+                  <li>TCP/IP y direccionamiento</li>
+                  <li>Wi-Fi doméstico y empresarial</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('ofimatica1')">
+            <div class="modulo-icon"><i class="fas fa-file-excel"></i></div>
+            <h3>Aplicaciones Ofimáticas</h3>
+            <p class="modulo-horas">90 horas</p>
+            @if (moduloAbierto === 'ofimatica1') {
+              <div class="modulo-detalle">
+                <p>Uso profesional de herramientas de oficina y productividad.</p>
+                <ul>
+                  <li>Microsoft Office 365</li>
+                  <li>Word, Excel avanzado</li>
+                  <li>PowerPoint y presentaciones</li>
+                  <li>Google Workspace</li>
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (cursoActivo === 2) {
+        <div class="modulos-grid">
+          <div class="modulo-card highlight" (click)="toggleModulo('redesavanzadas2')">
+            <div class="modulo-icon"><i class="fas fa-server"></i></div>
+            <h3>Sistemas Operativos en Red</h3>
+            <p class="modulo-horas">165 horas</p>
+            @if (moduloAbierto === 'redesavanzadas2') {
+              <div class="modulo-detalle">
+                <p>Administración de sistemas en red y gestión de usuarios.</p>
+                <ul>
+                  <li>Windows Server básico</li>
+                  <li>Active Directory</li>
+                  <li>Perfiles de usuario en red</li>
+                  <li>Impresoras en red compartidas</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('seguridad2')">
+            <div class="modulo-icon"><i class="fas fa-lock"></i></div>
+            <h3>Seguridad Informática</h3>
+            <p class="modulo-horas">96 horas</p>
+            @if (moduloAbierto === 'seguridad2') {
+              <div class="modulo-detalle">
+                <p>Protección básica de equipos, datos y redes.</p>
+                <ul>
+                  <li>Antivirus y malware</li>
+                  <li>Cortafuegos básico</li>
+                  <li>Contraseñas y cifrado</li>
+                  <li>Buenas prácticas de seguridad</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('servicios2')">
+            <div class="modulo-icon"><i class="fas fa-globe"></i></div>
+            <h3>Servicios en Red</h3>
+            <p class="modulo-horas">96 horas</p>
+            @if (moduloAbierto === 'servicios2') {
+              <div class="modulo-detalle">
+                <p>Configuración de servicios básicos de red para empresas.</p>
+                <ul>
+                  <li>Servidores web básicos</li>
+                  <li>Compartición de recursos</li>
+                  <li>Correo electrónico corporativo</li>
+                  <li>VoIP y videoconferencia</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card fct" (click)="toggleModulo('fct2')">
+            <div class="modulo-icon"><i class="fas fa-building"></i></div>
+            <h3>Prácticas en Empresa (FCT)</h3>
+            <p class="modulo-horas">380 horas</p>
+            @if (moduloAbierto === 'fct2') {
+              <div class="modulo-detalle">
+                <p>Experiencia real en empresas dando soporte técnico.</p>
+                <ul>
+                  <li>3 meses en empresa</li>
+                  <li>Soporte a usuarios reales</li>
+                  <li>Mantenimiento de equipos</li>
+                  <li>Posibilidad de contratación</li>
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- SALIDAS LABORALES -->
+  <section class="salidas-laborales">
+    <div class="container">
+      <h2>Salidas Profesionales</h2>
+      <p class="subtitulo">Perfiles técnicos con salida directa al mercado laboral</p>
+
+      <div class="salidas-grid">
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-headset"></i>
+            <h3>Técnico de Soporte</h3>
+          </div>
+          <p class="salida-descripcion">Resolución de incidencias informáticas y soporte a usuarios en empresas.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>18.000 - 26.000€/año</span></div>
+          <div class="demanda demanda-alta"><i class="fas fa-chart-line"></i> Demanda alta</div>
+          <div class="skills"><span>Windows</span><span>Ticketing</span><span>Hardware</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-network-wired"></i>
+            <h3>Técnico en Redes de Datos</h3>
+          </div>
+          <p class="salida-descripcion">Instalación y mantenimiento de redes locales en empresas.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>20.000 - 30.000€/año</span></div>
+          <div class="demanda demanda-alta"><i class="fas fa-chart-line"></i> Demanda alta</div>
+          <div class="skills"><span>Cisco</span><span>TCP/IP</span><span>Wi-Fi</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-tools"></i>
+            <h3>Operador de Sistemas</h3>
+          </div>
+          <p class="salida-descripcion">Operación y mantenimiento básico de sistemas informáticos empresariales.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>18.000 - 25.000€/año</span></div>
+          <div class="demanda demanda-alta"><i class="fas fa-chart-line"></i> Demanda estable</div>
+          <div class="skills"><span>Windows Server</span><span>Backup</span><span>Linux</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-store"></i>
+            <h3>Comercial de Microinformática</h3>
+          </div>
+          <p class="salida-descripcion">Venta y asesoramiento técnico de equipos y soluciones informáticas.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>18.000 - 28.000€/año</span></div>
+          <div class="demanda demanda-media"><i class="fas fa-chart-bar"></i> Demanda media</div>
+          <div class="skills"><span>Hardware</span><span>Ventas</span><span>Soporte</span></div>
+        </div>
+      </div>
+
+      <div class="estadisticas">
+        <div class="stat-box">
+          <i class="fas fa-users"></i>
+          <h4>+8.000</h4>
+          <p>Ofertas activas en España</p>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-trophy"></i>
+          <h4>85%</h4>
+          <p>Empleabilidad en el primer año</p>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-graduation-cap"></i>
+          <h4>60%</h4>
+          <p>Continúan con ASIR o DAW</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonios">
+    <div class="container">
+      <h2>Experiencias de Nuestros Alumnos</h2>
+      <div class="testimonios-grid">
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"Empecé SMR sin saber nada de informática y al terminar ya tenía trabajo dando soporte técnico. El ciclo es muy práctico."</p>
+          <p class="nombre">Alejandro T.</p>
+          <p class="puesto">Técnico de soporte en empresa logística</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"SMR me dio la base para luego hacer ASIR. Sin ese primer ciclo no hubiera podido seguir. Lo recomiendo como primer paso."</p>
+          <p class="nombre">Nuria F.</p>
+          <p class="puesto">Administradora de sistemas (tras completar ASIR)</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"Las prácticas en empresa fueron lo mejor. Tuve suerte y me quedaron. Ahora llevo el soporte de 200 equipos."</p>
+          <p class="nombre">Ismael R.</p>
+          <p class="puesto">Técnico IT en empresa de distribución</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <h2>Preguntas Frecuentes</h2>
+      <div class="faq-list">
+        <div class="faq-item" (click)="toggleFAQ(1)">
+          <div class="faq-question">
+            <h3>¿Qué requisitos necesito para acceder a SMR?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 1" [class.fa-chevron-up]="faqAbierto === 1"></i>
+          </div>
+          @if (faqAbierto === 1) {
+            <div class="faq-answer">
+              <p>Necesitas el título de ESO (Educación Secundaria Obligatoria) o equivalente. También puedes acceder superando la prueba de acceso a Grado Medio si tienes 17 años.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(2)">
+          <div class="faq-question">
+            <h3>¿Puedo acceder a ASIR o DAW después de SMR?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 2" [class.fa-chevron-up]="faqAbierto === 2"></i>
+          </div>
+          @if (faqAbierto === 2) {
+            <div class="faq-answer">
+              <p>Sí. Con el título de SMR (Grado Medio) puedes acceder directamente a cualquier Grado Superior de FP como ASIR, DAW o DAM sin necesidad de Bachillerato.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(3)">
+          <div class="faq-question">
+            <h3>¿Necesito conocimientos previos de informática?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 3" [class.fa-chevron-up]="faqAbierto === 3"></i>
+          </div>
+          @if (faqAbierto === 3) {
+            <div class="faq-answer">
+              <p>No. SMR está diseñado para empezar desde cero. Aprenderás desde cómo funciona un ordenador hasta configurar redes pequeñas. Sólo necesitas ganas de aprender.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(4)">
+          <div class="faq-question">
+            <h3>¿Cuánto dura el ciclo y cuándo son las prácticas?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 4" [class.fa-chevron-up]="faqAbierto === 4"></i>
+          </div>
+          @if (faqAbierto === 4) {
+            <div class="faq-answer">
+              <p>El ciclo dura 2 años. Las prácticas en empresa (FCT) son aproximadamente 380 horas y se realizan al final del segundo curso, generalmente de marzo a junio.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>¿Listo para Dar tu Primer Paso en el Mundo IT?</h2>
+      <p>Inscríbete ahora o solicita más información sin compromiso</p>
+      <div class="cta-buttons">
+        <button class="btn-primary-large" (click)="scrollToFormulario()">
+          <i class="fas fa-graduation-cap"></i> Solicitar Información
+        </button>
+        <button class="btn-secondary-large" (click)="descargarPDF()">
+          <i class="fas fa-file-pdf"></i> Descargar Dossier
+        </button>
+      </div>
+    </div>
+  </section>
+</article>
+
+<app-footer />

@@ -1,0 +1,474 @@
+<app-header />
+
+<article>
+  <!-- HERO -->
+  <section class="hero-grado">
+    <video autoplay muted loop playsinline class="video-fondo">
+      <source src="videosPaginas/videoDAM.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content-grado">
+      <h1>Desarrollo de Aplicaciones Multiplataforma</h1>
+      <p class="hero-subtitle">Crea apps para Android, iOS, escritorio y cualquier plataforma con las tecnologías más demandadas</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <i class="fas fa-clock"></i>
+          <span>2 años</span>
+          <small>Duración</small>
+        </div>
+        <div class="stat">
+          <i class="fas fa-briefcase"></i>
+          <span>93%</span>
+          <small>Empleabilidad</small>
+        </div>
+        <div class="stat">
+          <i class="fas fa-euro-sign"></i>
+          <span>24-42k€</span>
+          <small>Salario inicial</small>
+        </div>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn-primary" (click)="scrollToFormulario()">Solicitar información</button>
+        <button class="btn-secondary" (click)="descargarPDF()">
+          <i class="fas fa-download"></i> Plan de estudios
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUÉ ES DAM -->
+  <section class="que-es">
+    <div class="container">
+      <div class="grid-2col">
+        <div class="texto">
+          <h2>¿Qué es DAM?</h2>
+          <p>
+            El Ciclo Formativo de Grado Superior en <strong>Desarrollo de Aplicaciones Multiplataforma</strong>
+            te prepara para diseñar y programar aplicaciones que funcionan en múltiples entornos:
+            móvil, escritorio y web.
+          </p>
+          <p>
+            Aprenderás a desarrollar para <strong>Android</strong>, <strong>iOS</strong> y escritorio,
+            integrando bases de datos, APIs y servicios en la nube. El perfil DAM es uno de los
+            más completos y versátiles del mercado tecnológico.
+          </p>
+          <div class="tecnologias">
+            <h3>Tecnologías que dominarás:</h3>
+            <div class="tech-badges">
+              <span class="badge">Java</span>
+              <span class="badge">Kotlin</span>
+              <span class="badge">Android</span>
+              <span class="badge">Swift</span>
+              <span class="badge">React Native</span>
+              <span class="badge">Flutter</span>
+              <span class="badge">.NET</span>
+              <span class="badge">SQL</span>
+              <span class="badge">Firebase</span>
+              <span class="badge">Git</span>
+            </div>
+          </div>
+        </div>
+        <div class="imagen">
+          <img src="imagenesgrados/DAM.jpeg" alt="Desarrollo Multiplataforma">
+          <div class="destacado">
+            <i class="fas fa-mobile-alt"></i>
+            <p>"El 68% de los alumnos reciben oferta de empleo durante las prácticas"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAN DE ESTUDIOS -->
+  <section class="plan-estudios">
+    <div class="container">
+      <h2>Plan de Estudios</h2>
+      <p class="subtitulo">Formación completa para desarrollar apps profesionales en cualquier plataforma</p>
+
+      <div class="tabs">
+        <button [class.active]="cursoActivo === 1" (click)="cursoActivo = 1">Primer Curso</button>
+        <button [class.active]="cursoActivo === 2" (click)="cursoActivo = 2">Segundo Curso</button>
+      </div>
+
+      @if (cursoActivo === 1) {
+        <div class="modulos-grid">
+          <div class="modulo-card" (click)="toggleModulo('prog1')">
+            <div class="modulo-icon"><i class="fas fa-code"></i></div>
+            <h3>Programación</h3>
+            <p class="modulo-horas">240 horas</p>
+            @if (moduloAbierto === 'prog1') {
+              <div class="modulo-detalle">
+                <p>Fundamentos de programación orientada a objetos con Java.</p>
+                <ul>
+                  <li>Sintaxis y tipos de datos</li>
+                  <li>POO: clases, herencia, polimorfismo</li>
+                  <li>Colecciones y estructuras de datos</li>
+                  <li>Excepciones y buenas prácticas</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('lenguajes1')">
+            <div class="modulo-icon"><i class="fas fa-file-code"></i></div>
+            <h3>Lenguajes de Marcas</h3>
+            <p class="modulo-horas">96 horas</p>
+            @if (moduloAbierto === 'lenguajes1') {
+              <div class="modulo-detalle">
+                <p>HTML, XML y JSON para estructurar e intercambiar información.</p>
+                <ul>
+                  <li>HTML5 y CSS3</li>
+                  <li>XML y DTD</li>
+                  <li>JSON y APIs REST</li>
+                  <li>Transformaciones XSLT</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('bbdd1')">
+            <div class="modulo-icon"><i class="fas fa-database"></i></div>
+            <h3>Bases de Datos</h3>
+            <p class="modulo-horas">192 horas</p>
+            @if (moduloAbierto === 'bbdd1') {
+              <div class="modulo-detalle">
+                <p>Diseño e implementación de bases de datos para aplicaciones.</p>
+                <ul>
+                  <li>Modelo entidad-relación</li>
+                  <li>SQL avanzado</li>
+                  <li>Procedimientos almacenados</li>
+                  <li>MongoDB y NoSQL</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('sistemas1')">
+            <div class="modulo-icon"><i class="fas fa-server"></i></div>
+            <h3>Sistemas Informáticos</h3>
+            <p class="modulo-horas">165 horas</p>
+            @if (moduloAbierto === 'sistemas1') {
+              <div class="modulo-detalle">
+                <p>Hardware, sistemas operativos y virtualización.</p>
+                <ul>
+                  <li>Arquitectura de computadores</li>
+                  <li>Linux y Windows</li>
+                  <li>Docker y virtualización</li>
+                  <li>Redes TCP/IP</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('entornos1')">
+            <div class="modulo-icon"><i class="fas fa-tools"></i></div>
+            <h3>Entornos de Desarrollo</h3>
+            <p class="modulo-horas">90 horas</p>
+            @if (moduloAbierto === 'entornos1') {
+              <div class="modulo-detalle">
+                <p>IDEs, control de versiones y metodologías ágiles.</p>
+                <ul>
+                  <li>Git y GitHub</li>
+                  <li>IntelliJ IDEA y Android Studio</li>
+                  <li>Scrum y Kanban</li>
+                  <li>Testing unitario</li>
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (cursoActivo === 2) {
+        <div class="modulos-grid">
+          <div class="modulo-card highlight" (click)="toggleModulo('movil2')">
+            <div class="modulo-icon"><i class="fas fa-mobile-alt"></i></div>
+            <h3>Programación Multimedia y Móviles</h3>
+            <p class="modulo-horas">120 horas</p>
+            @if (moduloAbierto === 'movil2') {
+              <div class="modulo-detalle">
+                <p>Desarrollo de apps Android y multimedia nativas.</p>
+                <ul>
+                  <li>Android con Kotlin</li>
+                  <li>Jetpack Compose</li>
+                  <li>React Native y Flutter</li>
+                  <li>Multimedia: audio y vídeo</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card highlight" (click)="toggleModulo('interfaces2')">
+            <div class="modulo-icon"><i class="fas fa-paint-brush"></i></div>
+            <h3>Desarrollo de Interfaces</h3>
+            <p class="modulo-horas">120 horas</p>
+            @if (moduloAbierto === 'interfaces2') {
+              <div class="modulo-detalle">
+                <p>Diseño de interfaces gráficas usables y atractivas.</p>
+                <ul>
+                  <li>JavaFX y Swing</li>
+                  <li>Material Design</li>
+                  <li>Accesibilidad en apps</li>
+                  <li>Prototipado con Figma</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('acceso2')">
+            <div class="modulo-icon"><i class="fas fa-plug"></i></div>
+            <h3>Acceso a Datos</h3>
+            <p class="modulo-horas">120 horas</p>
+            @if (moduloAbierto === 'acceso2') {
+              <div class="modulo-detalle">
+                <p>Conexión de apps con BBDD, ficheros y APIs externas.</p>
+                <ul>
+                  <li>JDBC y Room (Android)</li>
+                  <li>Retrofit y consumo de APIs</li>
+                  <li>Firebase Realtime DB</li>
+                  <li>Serialización JSON/XML</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card" (click)="toggleModulo('servicios2')">
+            <div class="modulo-icon"><i class="fas fa-cloud"></i></div>
+            <h3>Programación de Servicios</h3>
+            <p class="modulo-horas">60 horas</p>
+            @if (moduloAbierto === 'servicios2') {
+              <div class="modulo-detalle">
+                <p>Desarrollo de servicios, procesos y comunicaciones.</p>
+                <ul>
+                  <li>Multihilo y concurrencia</li>
+                  <li>Sockets y comunicaciones</li>
+                  <li>Servicios REST con Spring</li>
+                  <li>Seguridad en comunicaciones</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card proyecto" (click)="toggleModulo('proyecto2')">
+            <div class="modulo-icon"><i class="fas fa-project-diagram"></i></div>
+            <h3>Proyecto Final</h3>
+            <p class="modulo-horas">40 horas</p>
+            @if (moduloAbierto === 'proyecto2') {
+              <div class="modulo-detalle">
+                <p>App multiplataforma completa integrando todo lo aprendido.</p>
+                <ul>
+                  <li>Planificación y análisis</li>
+                  <li>Desarrollo full-stack móvil</li>
+                  <li>Presentación profesional</li>
+                  <li>Documentación técnica</li>
+                </ul>
+              </div>
+            }
+          </div>
+
+          <div class="modulo-card fct" (click)="toggleModulo('fct2')">
+            <div class="modulo-icon"><i class="fas fa-building"></i></div>
+            <h3>Prácticas en Empresa (FCT)</h3>
+            <p class="modulo-horas">370 horas</p>
+            @if (moduloAbierto === 'fct2') {
+              <div class="modulo-detalle">
+                <p>Experiencia real en empresas tecnológicas del sector.</p>
+                <ul>
+                  <li>3 meses en empresas IT</li>
+                  <li>Proyectos reales</li>
+                  <li>Networking profesional</li>
+                  <li>Posibilidad de contratación</li>
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- SALIDAS LABORALES -->
+  <section class="salidas-laborales">
+    <div class="container">
+      <h2>Salidas Profesionales</h2>
+      <p class="subtitulo">Puestos con alta demanda en el sector del desarrollo de software</p>
+
+      <div class="salidas-grid">
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Desarrollador Android/iOS</h3>
+          </div>
+          <p class="salida-descripcion">Desarrollo de aplicaciones nativas para smartphones y tablets.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>26.000 - 44.000€/año</span></div>
+          <div class="demanda demanda-muy-alta"><i class="fas fa-fire"></i> Demanda muy alta</div>
+          <div class="skills"><span>Kotlin</span><span>Swift</span><span>Firebase</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Full-Stack Developer</h3>
+          </div>
+          <p class="salida-descripcion">Desarrollo completo de aplicaciones web y móviles.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>28.000 - 45.000€/año</span></div>
+          <div class="demanda demanda-muy-alta"><i class="fas fa-fire"></i> Demanda muy alta</div>
+          <div class="skills"><span>Java</span><span>Spring</span><span>React</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-desktop"></i>
+            <h3>Desarrollador de Escritorio</h3>
+          </div>
+          <p class="salida-descripcion">Aplicaciones empresariales para Windows, Linux y Mac.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>24.000 - 40.000€/año</span></div>
+          <div class="demanda demanda-alta"><i class="fas fa-chart-line"></i> Demanda alta</div>
+          <div class="skills"><span>.NET</span><span>JavaFX</span><span>Electron</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-puzzle-piece"></i>
+            <h3>Integrador de Sistemas</h3>
+          </div>
+          <p class="salida-descripcion">Conexión e integración de aplicaciones y servicios empresariales.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>25.000 - 42.000€/año</span></div>
+          <div class="demanda demanda-alta"><i class="fas fa-chart-line"></i> Demanda alta</div>
+          <div class="skills"><span>APIs REST</span><span>Docker</span><span>SQL</span></div>
+        </div>
+      </div>
+
+      <div class="estadisticas">
+        <div class="stat-box">
+          <i class="fas fa-users"></i>
+          <h4>+12.000</h4>
+          <p>Ofertas activas en España</p>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-trophy"></i>
+          <h4>93%</h4>
+          <p>Empleabilidad en el primer año</p>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-chart-line"></i>
+          <h4>+20%</h4>
+          <p>Crecimiento anual de la demanda</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonios">
+    <div class="container">
+      <h2>Experiencias de Nuestros Alumnos</h2>
+      <div class="testimonios-grid">
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"Terminé DAM y a los 2 meses estaba trabajando como Android Developer. Las prácticas en empresa fueron determinantes."</p>
+          <p class="nombre">Sergio P.</p>
+          <p class="puesto">Android Developer en startup fintech</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"Lo mejor es que aprendes tecnologías reales. Desde el primer día del trabajo ya sabía lo que hacía."</p>
+          <p class="nombre">Marta L.</p>
+          <p class="puesto">Full-Stack Developer en agencia digital</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"El proyecto final me abrió las puertas: lo presenté en una entrevista y me contrataron en el acto."</p>
+          <p class="nombre">Javi R.</p>
+          <p class="puesto">Software Developer en empresa de logística</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <h2>Preguntas Frecuentes</h2>
+      <div class="faq-list">
+        <div class="faq-item" (click)="toggleFAQ(1)">
+          <div class="faq-question">
+            <h3>¿Qué diferencia hay entre DAM y DAW?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 1" [class.fa-chevron-up]="faqAbierto === 1"></i>
+          </div>
+          @if (faqAbierto === 1) {
+            <div class="faq-answer">
+              <p>DAM se centra en aplicaciones nativas para móvil y escritorio (Android, iOS, Windows), mientras que DAW se enfoca en aplicaciones web que se ejecutan en el navegador. DAM usa más Kotlin/Java/Swift, DAW más JavaScript/HTML/CSS.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(2)">
+          <div class="faq-question">
+            <h3>¿Necesito saber programar para empezar?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 2" [class.fa-chevron-up]="faqAbierto === 2"></i>
+          </div>
+          @if (faqAbierto === 2) {
+            <div class="faq-answer">
+              <p>No es obligatorio. El ciclo empieza desde los fundamentos de programación. Tener conocimientos previos ayuda, pero el temario está diseñado para partir de cero.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(3)">
+          <div class="faq-question">
+            <h3>¿Puedo acceder con bachillerato?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 3" [class.fa-chevron-up]="faqAbierto === 3"></i>
+          </div>
+          @if (faqAbierto === 3) {
+            <div class="faq-answer">
+              <p>Sí. Puedes acceder con Bachillerato, Grado Medio de FP o superando la prueba de acceso a Grado Superior. También con titulación universitaria.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(4)">
+          <div class="faq-question">
+            <h3>¿Cuáles son las salidas laborales más demandadas?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 4" [class.fa-chevron-up]="faqAbierto === 4"></i>
+          </div>
+          @if (faqAbierto === 4) {
+            <div class="faq-answer">
+              <p>Las más demandadas son: Desarrollador Android/iOS, Full-Stack Developer y desarrollador de aplicaciones empresariales. El perfil DAM es muy versátil y tiene salida en casi todos los sectores.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>¿Listo para Crear Apps que Usen Millones de Personas?</h2>
+      <p>Inscríbete ahora o solicita más información sin compromiso</p>
+      <div class="cta-buttons">
+        <button class="btn-primary-large" (click)="scrollToFormulario()">
+          <i class="fas fa-graduation-cap"></i> Solicitar Información
+        </button>
+        <button class="btn-secondary-large" (click)="descargarPDF()">
+          <i class="fas fa-file-pdf"></i> Descargar Dossier
+        </button>
+      </div>
+    </div>
+  </section>
+</article>
+
+<app-footer />
