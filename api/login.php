@@ -61,6 +61,7 @@ try {
     if ($usuario && password_verify($clave, $usuario->CLAVE)) {
         $_SESSION['usuario'] = [
             'tipo' => 'USUARIO',
+            'id'   => $usuario->ID,
             'nombre' => $usuario->NOMBRE,
             'email' => $usuario->EMAIL,
             'apellido' => $usuario->APELLIDO ?? '',

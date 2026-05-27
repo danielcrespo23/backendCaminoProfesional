@@ -35,13 +35,14 @@ if (empty($texto)) {
     exit();
 }
 
-// Extraer el nombre del usuario de la sesión
-$usuario = $_SESSION['usuario'];
-$nombre  = $usuario['nombre'];
+// Extraer datos del usuario de la sesión
+$usuario    = $_SESSION['usuario'];
+$nombre     = $usuario['nombre'];
+$usuario_id = $usuario['id'] ?? null;   // null si es el admin hardcodeado
 
 try {
     $db = AccesoDatos::getModelo();
-    $resultado = $db->guardarComentario($nombre, $texto);
+    $resultado = $db->guardarComentario($nombre, $texto, $usuario_id);
 
     if ($resultado) {
         http_response_code(201);
