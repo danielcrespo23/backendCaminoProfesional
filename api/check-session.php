@@ -28,15 +28,17 @@ if (isset($_SESSION['usuario']) && isset($_SESSION['ultimo_acceso'])) {
 }
 
 if (isset($_SESSION['usuario'])) {
-    $user = $_SESSION['usuario'];
-    
+    $user       = $_SESSION['usuario'];
+    $nivelAdmin = (int)($user['es_admin'] ?? ($user['tipo'] === 'ADMIN' ? 1 : 0));
+
     http_response_code(200);
     echo json_encode([
         'authenticated' => true,
         'user' => [
-            'nombre' => $user['nombre'],
-            'email' => $user['email'],
-            'esAdmin' => ($user['tipo'] === 'ADMIN')
+            'nombre'       => $user['nombre'],
+            'email'        => $user['email'],
+            'esAdmin'      => $nivelAdmin >= 1,
+            'esSuperAdmin' => $nivelAdmin >= 2
         ]
     ]);
 } else {

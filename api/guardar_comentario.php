@@ -26,8 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-$data = json_decode(file_get_contents("php://input"), true);
-$texto = trim($data['texto_comentario'] ?? '');
+$data      = json_decode(file_get_contents("php://input"), true);
+$texto     = trim($data['texto_comentario'] ?? '');
+$parent_id = isset($data['parent_id']) ? (int)$data['parent_id'] : null;
 
 if (empty($texto)) {
     http_response_code(400);
@@ -42,7 +43,7 @@ $usuario_id = $usuario['id'] ?? null;   // null si es el admin hardcodeado
 
 try {
     $db = AccesoDatos::getModelo();
-    $resultado = $db->guardarComentario($nombre, $texto, $usuario_id);
+    $resultado = $db->guardarComentario($nombre, $texto, $usuario_id, $parent_id);
 
     if ($resultado) {
         http_response_code(201);

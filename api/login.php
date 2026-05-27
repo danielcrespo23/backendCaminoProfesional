@@ -32,12 +32,13 @@ if (empty($email) || empty($clave)) {
 }
 
 try {
-    // Caso especial: admin hardcoded
+    // Caso especial: admin hardcoded (nivel 2 = superadmin)
     if ($email === 'admin' && $clave === 'admin') {
         $_SESSION['usuario'] = [
-            'tipo' => 'ADMIN',
-            'nombre' => 'Administrador',
-            'email' => 'admin'
+            'tipo'    => 'ADMIN',
+            'nombre'  => 'Administrador',
+            'email'   => 'admin',
+            'es_admin' => 2
         ];
         $_SESSION['ultimo_acceso'] = time();
         
@@ -46,9 +47,10 @@ try {
             'success' => true,
             'message' => 'Login exitoso',
             'user' => [
-                'nombre' => 'Administrador',
-                'email' => 'admin',
-                'esAdmin' => true
+                'nombre'       => 'Administrador',
+                'email'        => 'admin',
+                'esAdmin'      => true,
+                'esSuperAdmin' => true
             ]
         ]);
         exit();
@@ -59,26 +61,30 @@ try {
     $usuario = $db->getUsuarioPorEmail($email);
     
     if ($usuario && password_verify($clave, $usuario->CLAVE)) {
+        $nivelAdmin = (int)($usuario->ES_ADMIN ?? 0);
+
         $_SESSION['usuario'] = [
-            'tipo' => 'USUARIO',
-            'id'   => $usuario->ID,
-            'nombre' => $usuario->NOMBRE,
-            'email' => $usuario->EMAIL,
+            'tipo'     => $nivelAdmin >= 1 ? 'ADMIN' : 'USUARIO',
+            'id'       => $usuario->ID,
+            'nombre'   => $usuario->NOMBRE,
+            'email'    => $usuario->EMAIL,
             'apellido' => $usuario->APELLIDO ?? '',
-            'grados' => $usuario->GRADOS ?? ''
+            'grados'   => $usuario->GRADOS ?? '',
+            'es_admin' => $nivelAdmin
         ];
         $_SESSION['ultimo_acceso'] = time();
-        
+
         http_response_code(200);
         echo json_encode([
             'success' => true,
             'message' => 'Login exitoso',
             'user' => [
-                'nombre' => $usuario->NOMBRE,
-                'email' => $usuario->EMAIL,
-                'apellido' => $usuario->APELLIDO ?? '',
-                'grados' => $usuario->GRADOS ?? '',
-                'esAdmin' => false
+                'nombre'       => $usuario->NOMBRE,
+                'email'        => $usuario->EMAIL,
+                'apellido'     => $usuario->APELLIDO ?? '',
+                'grados'       => $usuario->GRADOS ?? '',
+                'esAdmin'      => $nivelAdmin >= 1,
+                'esSuperAdmin' => $nivelAdmin >= 2
             ]
         ]);
     } else {

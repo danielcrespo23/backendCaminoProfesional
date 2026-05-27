@@ -32,12 +32,14 @@ try {
     
     $usuariosTransformados = array_map(function($u) {
         return [
-            'email' => $u->EMAIL,
-            'nombre' => $u->NOMBRE,
+            'email'    => $u->EMAIL,
+            'nombre'   => $u->NOMBRE,
             'apellido' => $u->APELLIDO ?? '',
             'telefono' => $u->TELEFONO ?? '',
-            'grados' => $u->GRADOS ?? '',
-            'esAdmin' => false
+            'grados'   => $u->GRADOS ?? '',
+            'esAdmin'      => (int)($u->ES_ADMIN ?? 0) >= 1,
+            'esSuperAdmin' => (int)($u->ES_ADMIN ?? 0) >= 2,
+            'rol'          => ((int)($u->ES_ADMIN ?? 0) >= 2 ? 'superadmin' : ((int)($u->ES_ADMIN ?? 0) >= 1 ? 'admin' : 'user'))
         ];
     }, $usuarios);
     

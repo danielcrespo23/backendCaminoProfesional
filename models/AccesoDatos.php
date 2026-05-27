@@ -34,53 +34,88 @@ class AccesoDatos {
 
     // Crear usuario
     public function crearUsuario($email, $nombre, $apellido, $telefono, $grados, $clave) {
-        $query = "INSERT INTO USUARIOS (EMAIL, NOMBRE, APELLIDO, TELEFONO, GRADOS, CLAVE) 
+        $query = "INSERT INTO USUARIOS (EMAIL, NOMBRE, APELLIDO, TELEFONO, GRADOS, CLAVE)
                   VALUES (:email, :nombre, :apellido, :telefono, :grados, :clave)";
         $stmt = $this->conn->prepare($query);
-        
+
         $hashedPassword = password_hash($clave, PASSWORD_DEFAULT);
-        
+
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':apellido', $apellido);
         $stmt->bindParam(':telefono', $telefono);
         $stmt->bindParam(':grados', $grados);
         $stmt->bindParam(':clave', $hashedPassword);
-        
+
         return $stmt->execute();
     }
 
-    // Obtener todos los usuarios (admin)
+    // Obtener todos los usuarios (admin) — incluye es_admin para mostrar el rol
     public function getTodosLosUsuarios() {
-        $query = "SELECT EMAIL, NOMBRE, APELLIDO, TELEFONO, GRADOS FROM USUARIOS ORDER BY NOMBRE";
+        $query = "SELECT email AS EMAIL, nombre AS NOMBRE, apellido AS APELLIDO,
+                         telefono AS TELEFONO, grados AS GRADOS, es_admin AS ES_ADMIN
+                  FROM usuarios ORDER BY nombre";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    // Guardar comentario
-    public function guardarComentario($nombre, $texto, $usuario_id = null) {
+    // Dar permisos de administrador
+    public function hacerAdmin($email) {
+        $query = "UPDATE usuarios SET es_admin = 1 WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $email);
+        return $stmt->execute();
+    }
+
+    // Quitar permisos de administrador (pasa a usuario normal)
+    public function quitarAdmin($email) {
+        $query = "UPDATE usuarios SET es_admin = 0 WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $email);
+        return $stmt->execute();
+    }
+
+    // Ascender admin a superadmin
+    public function hacerSuperAdmin($email) {
+        $query = "UPDATE usuarios SET es_admin = 2 WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $email);
+        return $stmt->execute();
+    }
+
+    // Degradar superadmin a admin normal (no a usuario)
+    public function degradarSuperAdmin($email) {
+        $query = "UPDATE usuarios SET es_admin = 1 WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $email);
+        return $stmt->execute();
+    }
+
+    // Guardar comentario (con soporte de respuestas via parent_id)
+    public function guardarComentario($nombre, $texto, $usuario_id = null, $parent_id = null) {
         if ($usuario_id !== null) {
-            $query = "INSERT INTO comentarios (usuario_id, nombre, texto_comentario, fecha_creacion)
-                      VALUES (:usuario_id, :nombre, :texto, NOW())";
+            $query = "INSERT INTO comentarios (usuario_id, nombre, texto_comentario, fecha_creacion, parent_id)
+                      VALUES (:usuario_id, :nombre, :texto, NOW(), :parent_id)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
             $stmt->bindParam(':nombre', $nombre);
             $stmt->bindParam(':texto', $texto);
+            $stmt->bindParam(':parent_id', $parent_id);
         } else {
-            // Admin hardcodeado: no tiene usuario_id real en la BD
-            $query = "INSERT INTO comentarios (nombre, texto_comentario, fecha_creacion)
-                      VALUES (:nombre, :texto, NOW())";
+            $query = "INSERT INTO comentarios (nombre, texto_comentario, fecha_creacion, parent_id)
+                      VALUES (:nombre, :texto, NOW(), :parent_id)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nombre', $nombre);
             $stmt->bindParam(':texto', $texto);
+            $stmt->bindParam(':parent_id', $parent_id);
         }
         return $stmt->execute();
     }
 
-    // Obtener todos los comentarios (incluye id para poder borrarlos)
+    // Obtener todos los comentarios — incluye parent_id para el sistema de respuestas
     public function getComentarios() {
-        $query = "SELECT id, nombre AS NOMBRE, texto_comentario, fecha_creacion
+        $query = "SELECT id, nombre AS NOMBRE, texto_comentario, fecha_creacion, parent_id
                   FROM comentarios ORDER BY fecha_creacion DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -89,7 +124,7 @@ class AccesoDatos {
 
     // Borrar comentario por ID
     public function borrarComentario($id) {
-        $query = "DELETE FROM comentarios WHERE ID = :id";
+        $query = "DELETE FROM comentarios WHERE id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
