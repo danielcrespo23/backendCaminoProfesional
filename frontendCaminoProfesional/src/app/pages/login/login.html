@@ -1,0 +1,46 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Área Privada</h1>
+    <p>Inicia sesión para acceder</p>
+
+    <form (ngSubmit)="login()">
+      <div class="form-group">
+        <label>Email o Usuario:</label>
+        <input 
+          type="text" 
+          [(ngModel)]="email" 
+          name="email" 
+          placeholder="admin o tu email"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña:</label>
+        <input 
+          type="password" 
+          [(ngModel)]="clave" 
+          name="clave" 
+          placeholder="Contraseña"
+          required>
+      </div>
+
+      <button type="submit" [disabled]="enviando">
+        {{ enviando ? 'Iniciando sesión...' : 'Iniciar sesión' }}
+      </button>
+    </form>
+
+    @if (mensaje) {
+      <div class="mensaje-error">
+        {{ mensaje }}
+      </div>
+    }
+
+    <p class="link-registro">¿No tienes cuenta? <a routerLink="/register">Regístrate</a></p>
+
+    <div class="info-admin">
+      <p><strong>Para probar como admin:</strong></p>
+      <p>Usuario: <code>admin</code></p>
+      <p>Contraseña: <code>admin</code></p>
+    </div>
+  </div>
+</div>

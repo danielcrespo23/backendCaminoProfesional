@@ -1,0 +1,364 @@
+<app-header />
+
+<article>
+  <div class="elementosprincipales">
+    <section class="hero">
+      <video autoplay muted loop playsinline class="video-fondo">
+        <source src="videosPaginas/videoprogramando.mp4" type="video/mp4">
+      </video>
+      <div class="hero-content">
+        <h1>Tu camino profesional en la informática empieza aquí</h1>
+        <p>
+          Descubre las principales titulaciones de Formación Profesional en informática:
+          <strong>DAW, DAM y ASIR</strong>. Conoce las especialidades con mayor demanda laboral, las competencias más valoradas por las empresas tecnológicas y las oportunidades que ofrece el mundo de la <strong>programación, la ciberseguridad y la inteligencia artificial</strong>.<br><br>
+          Prepárate para destacar y construir una carrera sólida junto a los referentes del sector digital.
+        </p>
+        <a href="#puestostrabajoyformulario" class="btn-hero">Explorar especialidades y salidas laborales</a>
+      </div>
+    </section>
+
+    <div class="contenido-dinamico" style="padding: 20px; max-width: 1200px; margin: auto;">
+      @if (auth.esAdmin()) {
+        <div class="admin-panel">
+          <h2 class="admin-titulo">Panel de Administración</h2>
+
+          <h3 style="color: #fff; margin-top: 20px; margin-bottom: 5px; font-size: 1.3rem; border-left: 4px solid #ff4757; padding-left: 10px;">Usuarios Registrados</h3>
+          <p class="admin-subtitulo">{{ usuariosMock().length }} usuario(s) registrado(s)</p>
+
+          @if (usuariosMock().length === 0) {
+            <p class="admin-vacio">No hay usuarios registrados todavía.</p>
+          } @else {
+            <div class="tabla-scroll">
+              <table class="admin-tabla">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Ciclo de interés</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (u of usuariosMock(); track u.email) {
+                    <tr>
+                      <td>{{ u.nombre }}</td>
+                      <td>{{ u.apellido || '—' }}</td>
+                      <td>{{ u.email }}</td>
+                      <td>{{ u.telefono || '—' }}</td>
+                      <td>{{ u.grados || '—' }}</td>
+                      <td style="text-align: center;">
+                        <button (click)="borrarUsuario(u.email, u.nombre)" style="background: none; border: none; color: #ff4757; cursor: pointer; font-size: 1.2rem;" title="Borrar usuario">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+
+          <div style="margin-top: 40px; margin-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.1);"></div>
+
+          <h3 style="color: #fff; margin-bottom: 5px; font-size: 1.3rem; border-left: 4px solid #ffa500; padding-left: 10px;">Personas que solicitan información</h3>
+          <p class="admin-subtitulo">{{ solicitudesInfo().length }} solicitud(es) registrada(s)</p>
+
+          @if (solicitudesInfo().length === 0) {
+            <p class="admin-vacio">No hay solicitudes de información todavía.</p>
+          } @else {
+            <div class="tabla-scroll">
+              <table class="admin-tabla">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Ciclo de interés</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (s of solicitudesInfo(); track s.id) {
+                    <tr>
+                      <td>{{ s.nombre }}</td>
+                      <td>{{ s.apellido || '—' }}</td>
+                      <td>{{ s.email }}</td>
+                      <td>{{ s.telefono || '—' }}</td>
+                      <td>{{ s.ciclo_interes || '—' }}</td>
+                      <td style="text-align: center;">
+                        <button (click)="borrarSolicitud(s.id, s.nombre)" style="background: none; border: none; color: #ff4757; cursor: pointer; font-size: 1.2rem;" title="Borrar solicitud">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+
+          <div style="margin-top: 40px; margin-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.1);"></div>
+
+          <h3 style="color: #fff; margin-bottom: 5px; font-size: 1.3rem; border-left: 4px solid #2e9fff; padding-left: 10px;">Comentarios</h3>
+          <p class="admin-subtitulo">{{ comentariosAdmin().length }} comentario(s) registrado(s)</p>
+
+          @if (comentariosAdmin().length === 0) {
+            <p class="admin-vacio">No hay comentarios todavía.</p>
+          } @else {
+            <div class="tabla-scroll">
+              <table class="admin-tabla">
+                <thead>
+                  <tr>
+                    <th>Usuario</th>
+                    <th>Comentario</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (c of comentariosAdmin(); track c.id) {
+                    <tr>
+                      <td>{{ c.NOMBRE }}</td>
+                      <td>{{ c.texto_comentario }}</td>
+                      <td>{{ c.fecha_creacion | date:'shortDate' }}</td>
+                      <td style="text-align: center;">
+                        <button (click)="borrarComentarioAdmin(c.id)" style="background: none; border: none; color: #ff4757; cursor: pointer; font-size: 1.2rem;" title="Borrar comentario">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      } @else if (auth.usuario(); as u) {
+        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; color: white;">
+          <h2>Hola {{ u.nombre }}</h2>
+          <p>Gracias por registrarte. Pronto te contactaremos.</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <section class="englobado">
+    <div class="grados-titulo">
+      <h1>Grados de informática y especialidades destacados:</h1>
+    </div>
+    <div class="grados-caja">
+      <div class="gradosimg">
+        <div class="grado">
+          <a routerLink="/asir">
+            <img src="imagenesgrados/empleadoredes.webp" alt="ASIR">
+            <span class="grado-texto">ASIR</span>
+          </a>
+        </div>
+        <div class="grado">
+          <a routerLink="/daw">
+            <img src="imagenesgrados/programacion.jpg" alt="DAW">
+            <span class="grado-texto">DAW</span>
+          </a>
+        </div>
+        <div class="grado">
+          <a routerLink="/dam">
+            <img src="imagenesgrados/DAM.jpeg" alt="DAM">
+            <span class="grado-texto">DAM</span>
+          </a>
+        </div>
+        <div class="grado">
+          <a routerLink="/smr">
+            <img src="imagenesgrados/SMR.webp" alt="SMR">
+            <span class="grado-texto">SMR</span>
+          </a>
+        </div>
+      </div>
+      <div class="gradosimg">
+        <div class="grado">
+          <a routerLink="/bigdata">
+            <img src="imagenesgrados/ANALISTAS.webp" alt="BIG DATA">
+            <span class="grado-texto">BIG DATA</span>
+          </a>
+        </div>
+        <div class="grado">
+          <a href="#">
+            <img src="imagenesgrados/DISEÑO.jpg" alt="DISEÑO GRAFICO">
+            <span class="grado-texto">DISEÑO GRAFICO</span>
+          </a>
+        </div>
+        <div class="grado">
+          <a routerLink="/ia">
+            <img src="imagenesgrados/informatico.jpg" alt="IA">
+            <span class="grado-texto">IA</span>
+          </a>
+        </div>
+        <div class="grado">
+          <a routerLink="/ciberseguridad">
+            <img src="imagenesgrados/CIBER.jpg" alt="CIBERSEGURIDAD">
+            <span class="grado-texto">CIBERSEGURIDAD</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="puestostrabajoyformulario" id="puestostrabajoyformulario">
+    <section class="trabajos">
+      <div class="trabajos-header">
+        <h1>Puestos de trabajo con mayor crecimiento laboral</h1>
+        <p class="trabajos-intro">
+          El sector tecnológico español necesita más de <strong>120.000 profesionales</strong> cada año.
+          Descubre las especialidades con mayor demanda y mejores salarios.
+        </p>
+      </div>
+
+      <div class="trabajo-card">
+        <div class="trabajo-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="trabajo-content">
+          <h2>Big Data y Análisis de Datos</h2>
+          <div class="trabajo-meta">
+            <span class="trabajo-tag demanda-alta">Demanda alta</span>
+            <span class="trabajo-salario">💼 35k-60k €/año</span>
+          </div>
+          <p (click)="hablar($any($event.target).innerText)" style="cursor: pointer;" title="Haz clic para escuchar">
+            La información que las empresas tienen de sus clientes y sus procesos es, sin lugar a duda, muy valiosa para poder mejorar sus procesos y su rentabilidad. El analista de datos centraliza esa información y la organiza de forma que pueda ser explotada para aportar valor a la empresa. Cada vez más las empresas recurren a este tipo de perfiles y crean departamentos específicos de minería de datos.
+          </p>
+          <div class="trabajo-skills">
+            <span>Python</span><span>SQL</span><span>Tableau</span><span>Power BI</span><span>Hadoop</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="trabajo-card">
+        <div class="trabajo-icon redes">
+          <i class="fas fa-network-wired"></i>
+        </div>
+        <div class="trabajo-content">
+          <h2>Técnico en Redes</h2>
+          <div class="trabajo-meta">
+            <span class="trabajo-tag demanda-media">Demanda estable</span>
+            <span class="trabajo-salario">💼 24k-38k €/año</span>
+          </div>
+          <p (click)="hablar($any($event.target).innerText)" style="cursor: pointer;">
+            El técnico de microinformática y redes se responsabiliza del correcto funcionamiento de los equipos de los usuarios, ya sea instalando y configurando los equipos, o bien resolviendo las incidencias que puedan surgir. Pensemos en la importancia de este personal, ya que todas las empresas están informatizadas y sin una plantilla capaz de resolver problemas a nivel informático, la empresa puede llegar al colapso.
+          </p>
+          <div class="trabajo-skills">
+            <span>Cisco</span><span>Linux</span><span>Windows Server</span><span>TCP/IP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="trabajo-card">
+        <div class="trabajo-icon desarrollo">
+          <i class="fas fa-code"></i>
+        </div>
+        <div class="trabajo-content">
+          <h2>Ingeniero de Software / Desarrollador</h2>
+          <div class="trabajo-meta">
+            <span class="trabajo-tag demanda-muy-alta">Demanda crítica</span>
+            <span class="trabajo-salario">💼 30k-55k €/año</span>
+          </div>
+          <p (click)="hablar($any($event.target).innerText)" style="cursor: pointer;">
+            La rama de la programación siempre ha contado con excelentes salidas laborales. El programador desarrolla código para la ejecución de aplicaciones de diversa naturaleza. La programación abarca diferentes áreas de actuación, ya que cada vez el perfil se especializa más: front-end, back-end, aplicaciones móviles, multiplataforma... Especializarte en DAW o DAM te dotará de un perfil profesional muy atractivo, con condiciones de trabajo muy ventajosas.
+          </p>
+          <div class="trabajo-skills">
+            <span>JavaScript</span><span>Java</span><span>React</span><span>Node.js</span><span>Git</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="trabajo-card">
+        <div class="trabajo-icon seguridad">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="trabajo-content">
+          <h2>Técnico en Ciberseguridad</h2>
+          <div class="trabajo-meta">
+            <span class="trabajo-tag demanda-muy-alta">Demanda crítica</span>
+            <span class="trabajo-salario">💼 32k-65k €/año</span>
+          </div>
+          <p (click)="hablar($any($event.target).innerText)" style="cursor: pointer;">
+            Desgraciadamente, la ciberseguridad está últimamente muy de moda por el gran volumen de ataques que día a día sufren las empresas, lo cual hace necesario que se doten de profesionales capaces de gestionar toda la seguridad de esta. Estos expertos deben ser capaces de definir planes de seguridad que garanticen la mínima exposición al riesgo de sufrir un ataque cibernético. Es un perfil relativamente nuevo y hay pocos profesionales formados si lo comparamos con las necesidades que presentan las empresas en este ámbito. Sin duda es una de las especialidades de informática con más salida laboral.
+          </p>
+          <div class="trabajo-skills">
+            <span>Pentesting</span><span>Firewalls</span><span>SIEM</span><span>ISO 27001</span><span>Ethical Hacking</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="trabajos-stats">
+        <div class="stat-item">
+          <div class="stat-number">120.000+</div>
+          <div class="stat-label">Puestos vacantes/año</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">85%</div>
+          <div class="stat-label">Empleabilidad en 6 meses</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">35k €</div>
+          <div class="stat-label">Salario medio inicial</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="formulario">
+      <div class="formulario-header">
+        <i class="fas fa-envelope-open-text"></i>
+        <h2>Solicita información personalizada</h2>
+        <p>Te asesoraremos sobre el mejor camino según tu perfil y objetivos</p>
+      </div>
+
+      <form (ngSubmit)="enviar()">
+        <label>Correo electrónico:</label>
+        <input type="email" name="email" [(ngModel)]="formulario.email" required placeholder="tu@email.com">
+
+        <label>Nombre:</label>
+        <input type="text" name="nombre" [(ngModel)]="formulario.nombre" required placeholder="Nombre">
+
+        <label>Apellido:</label>
+        <input type="text" name="apellido" [(ngModel)]="formulario.apellido" required placeholder="Apellidos">
+
+        <label>Número de teléfono:</label>
+        <input type="tel" name="telefono" [(ngModel)]="formulario.telefono" placeholder="Opcional">
+
+        <label>¿Qué ciclo te interesa?</label>
+        <select name="grados" [(ngModel)]="formulario.grados">
+          <option value="">Selecciona un grado...</option>
+          <option value="DAW">DAW - Desarrollo Aplicaciones Web</option>
+          <option value="DAM">DAM - Desarrollo Aplicaciones Multiplataforma</option>
+          <option value="ASIR">ASIR - Administración de Sistemas</option>
+          <option value="SMR">SMR - Sistemas Microinformáticos</option>
+        </select>
+
+        <button type="submit" class="btn-enviar" [disabled]="enviando()">
+          <i class="fas fa-paper-plane"></i>
+          {{ enviando() ? 'Enviando...' : 'Enviar solicitud' }}
+        </button>
+      </form>
+
+      @if (mostrarExito()) {
+        <div class="alerta-exito">
+          <span>✅ ¡Solicitud enviada! En breve nos pondremos en contacto contigo.</span>
+          <button class="alerta-cerrar" (click)="cerrarExito()">✕</button>
+        </div>
+      }
+      @if (mensaje()) {
+        <div class="mensaje-error">{{ mensaje() }}</div>
+      }
+      <div class="formulario-footer">
+        <p><i class="fas fa-lock"></i> Tus datos están protegidos según el RGPD</p>
+      </div>
+    </section>
+  </div>
+
+  <app-carrusel></app-carrusel>
+  <app-comentarios></app-comentarios>
+</article>
+
+<app-footer />

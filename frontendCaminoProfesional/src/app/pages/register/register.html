@@ -1,0 +1,51 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Crear cuenta</h1>
+    <p>Rellena el formulario para registrarte</p>
+
+    <form (ngSubmit)="register()">
+      <div class="form-group">
+        <label>Nombre *</label>
+        <input type="text" [(ngModel)]="nombre" name="nombre" placeholder="Tu nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label>Apellido *</label>
+        <input type="text" [(ngModel)]="apellido" name="apellido" placeholder="Tu apellido" required>
+      </div>
+
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" [(ngModel)]="email" name="email" placeholder="tu@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña *</label>
+        <input type="password" [(ngModel)]="clave" name="clave" placeholder="Contraseña" required>
+      </div>
+
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="tel" [(ngModel)]="telefono" name="telefono" placeholder="666 000 000">
+      </div>
+
+      <div class="form-group">
+        <label>Ciclos de interés</label>
+        <input type="text" [(ngModel)]="grados" name="grados" placeholder="DAW, DAM, ASIR...">
+      </div>
+
+      <button type="submit" [disabled]="enviando">
+        {{ enviando ? 'Registrando...' : 'Crear cuenta' }}
+      </button>
+    </form>
+
+    @if (mensaje) {
+      <div class="mensaje-error">{{ mensaje }}</div>
+    }
+    @if (mensajeExito) {
+      <div class="mensaje-exito">{{ mensajeExito }}</div>
+    }
+
+    <p class="link-login">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+  </div>
+</div>

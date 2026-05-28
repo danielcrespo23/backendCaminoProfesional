@@ -1,0 +1,59 @@
+<header class="cp-header">
+  <div class="top-bar">
+    <nav class="top-nav">
+      <a href="#">Sobre CP</a>
+    </nav>
+    <div class="insti-access">
+      <a href="https://gestiona.comunidad.madrid/wpad_pub/run/j/MostrarConsultaGeneral.icm">
+        Acceso a Institutos
+      </a>
+    </div>
+  </div>
+
+  <div class="main-bar">
+    <a class="logo" routerLink="/">CAMINOPROFESIONAL</a>
+
+    <nav class="main-nav">
+      <ul>
+        <li class="dropdown">
+          <a href="#">Formación Profesional ▼</a>
+          <ul class="dropdown-content">
+            <li><a routerLink="/daw">DAW</a></li>
+            <li><a routerLink="/asir">ASIR</a></li>
+            <li><a routerLink="/dam">DAM</a></li>
+            <li><a routerLink="/smr">SMR</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#">Especializaciones ▼</a>
+          <ul class="dropdown-content">
+            <li><a routerLink="/ciberseguridad">CIBERSEGURIDAD</a></li>
+            <li><a routerLink="/bigdata">BIG DATA</a></li>
+            <li><a routerLink="/ia">INTELIGENCIA ARTIFICIAL</a></li>
+          </ul>
+        </li>
+        <li style="padding: 10px; color: #333; font-weight: bold;">
+          Hola,
+          @if (auth.esAdmin()) {
+            Administrador
+          } @else if (auth.usuario(); as u) {
+            {{ u.nombre }}
+          } @else {
+            Invitado
+          }
+        </li>
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <div class="search-box">
+        @if (auth.esAdmin() || auth.usuario()) {
+          <a (click)="cerrarSesion()" style="color:red; cursor:pointer;">Cerrar Sesión</a>
+        } @else {
+          <a routerLink="/login" style="color:blue; font-weight:bold;">Área Privada</a>
+        }
+      </div>
+      <button class="cta-button" (click)="scrollToForm()">Infórmate</button>
+    </div>
+  </div>
+</header>

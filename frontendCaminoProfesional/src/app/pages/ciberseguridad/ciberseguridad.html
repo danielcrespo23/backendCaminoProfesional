@@ -1,0 +1,378 @@
+<app-header />
+
+<article>
+  <!-- HERO -->
+  <section class="hero-grado">
+    <video autoplay muted loop playsinline class="video-fondo">
+      <source src="videosPaginas/videoCiberseguridad.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content-grado">
+      <h1>Ciberseguridad</h1>
+      <p class="hero-subtitle">Protege sistemas y redes frente a ciberataques con técnicas de hacking ético y análisis forense</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <i class="fas fa-clock"></i>
+          <span>1 año</span>
+          <small>Duración</small>
+        </div>
+        <div class="stat">
+          <i class="fas fa-briefcase"></i>
+          <span>98%</span>
+          <small>Empleabilidad</small>
+        </div>
+        <div class="stat">
+          <i class="fas fa-euro-sign"></i>
+          <span>32-65k€</span>
+          <small>Salario inicial</small>
+        </div>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn-primary" (click)="scrollToFormulario()">Solicitar información</button>
+        <button class="btn-secondary" (click)="descargarPDF()">
+          <i class="fas fa-download"></i> Ver temario
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUÉ ES -->
+  <section class="que-es">
+    <div class="container">
+      <div class="grid-2col">
+        <div class="texto">
+          <h2>¿Qué es la Especialización en Ciberseguridad?</h2>
+          <p>
+            La <strong>Especialización en Ciberseguridad</strong> está orientada a titulados en informática
+            que quieren convertirse en expertos en protección de sistemas, detección de amenazas y
+            respuesta a incidentes.
+          </p>
+          <p>
+            Aprenderás <strong>hacking ético</strong>, análisis forense digital, seguridad en redes
+            y normativas como el <strong>RGPD</strong>. El perfil más escaso y mejor pagado del
+            sector tecnológico español.
+          </p>
+          <div class="tecnologias">
+            <h3>Herramientas que dominarás:</h3>
+            <div class="tech-badges">
+              <span class="badge">Kali Linux</span>
+              <span class="badge">Metasploit</span>
+              <span class="badge">Wireshark</span>
+              <span class="badge">Burp Suite</span>
+              <span class="badge">Nmap</span>
+              <span class="badge">SIEM</span>
+              <span class="badge">ISO 27001</span>
+              <span class="badge">Python</span>
+              <span class="badge">Autopsy</span>
+              <span class="badge">OpenVAS</span>
+            </div>
+          </div>
+        </div>
+        <div class="imagen">
+          <img src="imagenesgrados/CIBER.jpg" alt="Ciberseguridad">
+          <div class="destacado">
+            <i class="fas fa-shield-alt"></i>
+            <p>"España necesita más de 40.000 expertos en ciberseguridad que no existen aún"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULOS -->
+  <section class="plan-estudios">
+    <div class="container">
+      <h2>Módulos de la Especialización</h2>
+      <p class="subtitulo">Un año intensivo para convertirte en experto en seguridad ofensiva y defensiva</p>
+
+      <div class="modulos-grid">
+        <div class="modulo-card" (click)="toggleModulo('seg1')">
+          <div class="modulo-icon"><i class="fas fa-lock"></i></div>
+          <h3>Fundamentos de Ciberseguridad</h3>
+          <p class="modulo-horas">80 horas</p>
+          @if (moduloAbierto === 'seg1') {
+            <div class="modulo-detalle">
+              <p>Principios de seguridad, amenazas y tipos de ataques.</p>
+              <ul>
+                <li>Triada CIA: Confidencialidad, Integridad, Disponibilidad</li>
+                <li>Tipos de malware y ataques</li>
+                <li>Ingeniería social y phishing</li>
+                <li>Marcos de ciberseguridad (NIST, CIS)</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card highlight" (click)="toggleModulo('seg2')">
+          <div class="modulo-icon"><i class="fas fa-network-wired"></i></div>
+          <h3>Seguridad en Redes</h3>
+          <p class="modulo-horas">100 horas</p>
+          @if (moduloAbierto === 'seg2') {
+            <div class="modulo-detalle">
+              <p>Protección de infraestructuras de red corporativas.</p>
+              <ul>
+                <li>Firewalls, IDS e IPS</li>
+                <li>VPN y cifrado de comunicaciones</li>
+                <li>Análisis de tráfico con Wireshark</li>
+                <li>Segmentación y DMZ</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card highlight" (click)="toggleModulo('seg3')">
+          <div class="modulo-icon"><i class="fas fa-user-secret"></i></div>
+          <h3>Hacking Ético y Pentesting</h3>
+          <p class="modulo-horas">120 horas</p>
+          @if (moduloAbierto === 'seg3') {
+            <div class="modulo-detalle">
+              <p>Técnicas ofensivas para identificar vulnerabilidades.</p>
+              <ul>
+                <li>Metodología pentesting (OWASP, PTES)</li>
+                <li>Kali Linux y Metasploit</li>
+                <li>Explotación de vulnerabilidades web</li>
+                <li>Post-explotación y pivoting</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card" (click)="toggleModulo('seg4')">
+          <div class="modulo-icon"><i class="fas fa-search"></i></div>
+          <h3>Análisis Forense Informático</h3>
+          <p class="modulo-horas">80 horas</p>
+          @if (moduloAbierto === 'seg4') {
+            <div class="modulo-detalle">
+              <p>Investigación de incidentes y recuperación de evidencias digitales.</p>
+              <ul>
+                <li>Cadena de custodia digital</li>
+                <li>Autopsy y Volatility</li>
+                <li>Análisis de logs y artefactos</li>
+                <li>Informe pericial informático</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card" (click)="toggleModulo('seg5')">
+          <div class="modulo-icon"><i class="fas fa-file-contract"></i></div>
+          <h3>Legislación y Normativa</h3>
+          <p class="modulo-horas">60 horas</p>
+          @if (moduloAbierto === 'seg5') {
+            <div class="modulo-detalle">
+              <p>Marco legal, protección de datos y cumplimiento normativo.</p>
+              <ul>
+                <li>RGPD y LOPDGDD</li>
+                <li>ISO 27001 y ENS</li>
+                <li>Delitos informáticos</li>
+                <li>Auditorías de seguridad</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card proyecto" (click)="toggleModulo('seg6')">
+          <div class="modulo-icon"><i class="fas fa-flag"></i></div>
+          <h3>Proyecto CTF y Red Team</h3>
+          <p class="modulo-horas">60 horas</p>
+          @if (moduloAbierto === 'seg6') {
+            <div class="modulo-detalle">
+              <p>Competición real de hacking y ejercicio red team vs blue team.</p>
+              <ul>
+                <li>Resolución de CTF challenges</li>
+                <li>Simulación de ataque real</li>
+                <li>Defensa y respuesta a incidentes</li>
+                <li>Informe técnico profesional</li>
+              </ul>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALIDAS LABORALES -->
+  <section class="salidas-laborales">
+    <div class="container">
+      <h2>Salidas Profesionales</h2>
+      <p class="subtitulo">El perfil más escaso y mejor remunerado del sector tecnológico</p>
+
+      <div class="salidas-grid">
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-user-secret"></i>
+            <h3>Hacker Ético / Pentester</h3>
+          </div>
+          <p class="salida-descripcion">Auditorías de seguridad y pruebas de penetración en sistemas empresariales.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>35.000 - 65.000€/año</span></div>
+          <div class="demanda demanda-muy-alta"><i class="fas fa-fire"></i> Demanda crítica</div>
+          <div class="skills"><span>Metasploit</span><span>Burp Suite</span><span>Kali</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Analista SOC</h3>
+          </div>
+          <p class="salida-descripcion">Monitorización y respuesta a incidentes de seguridad en tiempo real.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>32.000 - 55.000€/año</span></div>
+          <div class="demanda demanda-muy-alta"><i class="fas fa-fire"></i> Demanda muy alta</div>
+          <div class="skills"><span>SIEM</span><span>Splunk</span><span>SOAR</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-search"></i>
+            <h3>Analista Forense Digital</h3>
+          </div>
+          <p class="salida-descripcion">Investigación de ciberdelitos y peritaje informático judicial.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>33.000 - 58.000€/año</span></div>
+          <div class="demanda demanda-muy-alta"><i class="fas fa-fire"></i> Demanda muy alta</div>
+          <div class="skills"><span>Autopsy</span><span>Volatility</span><span>FTK</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-cogs"></i>
+            <h3>Administrador de Seguridad</h3>
+          </div>
+          <p class="salida-descripcion">Gestión de políticas, herramientas y cumplimiento normativo de seguridad.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>30.000 - 52.000€/año</span></div>
+          <div class="demanda demanda-alta"><i class="fas fa-chart-line"></i> Demanda alta</div>
+          <div class="skills"><span>ISO 27001</span><span>RGPD</span><span>Firewalls</span></div>
+        </div>
+      </div>
+
+      <div class="estadisticas">
+        <div class="stat-box">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h4>40.000+</h4>
+          <p>Expertos en seguridad que faltan en España</p>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-trophy"></i>
+          <h4>98%</h4>
+          <p>Empleabilidad en el primer año</p>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-chart-line"></i>
+          <h4>+35%</h4>
+          <p>Aumento de ciberataques año tras año</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonios">
+    <div class="container">
+      <h2>Experiencias de Nuestros Alumnos</h2>
+      <div class="testimonios-grid">
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"Venía de ASIR y con la especialización en ciberseguridad conseguí trabajo en un SOC con 38k el primer año. Merece la pena al 100%."</p>
+          <p class="nombre">Adrián C.</p>
+          <p class="puesto">Analista SOC en empresa de seguridad gestionada</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"El módulo de pentesting fue brutal. Aprendí más en 3 meses que en años viendo tutoriales. Ahora hago auditorías para grandes empresas."</p>
+          <p class="nombre">Lucía B.</p>
+          <p class="puesto">Pentester en consultora de seguridad</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"El CTF del proyecto final lo puse en el CV y fue lo primero que me preguntaron en todas las entrevistas. Es un diferenciador enorme."</p>
+          <p class="nombre">Víctor H.</p>
+          <p class="puesto">Red Team en empresa de defensa</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <h2>Preguntas Frecuentes</h2>
+      <div class="faq-list">
+        <div class="faq-item" (click)="toggleFAQ(1)">
+          <div class="faq-question">
+            <h3>¿Qué titulación previa necesito?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 1" [class.fa-chevron-up]="faqAbierto === 1"></i>
+          </div>
+          @if (faqAbierto === 1) {
+            <div class="faq-answer">
+              <p>Necesitas un Grado Superior de FP en informática (DAW, DAM, ASIR) o titulación universitaria. Es una especialización que requiere base técnica previa en sistemas o redes.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(2)">
+          <div class="faq-question">
+            <h3>¿Es legal aprender hacking ético?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 2" [class.fa-chevron-up]="faqAbierto === 2"></i>
+          </div>
+          @if (faqAbierto === 2) {
+            <div class="faq-answer">
+              <p>Sí. El hacking ético se realiza siempre con autorización del propietario del sistema. Todo el entrenamiento se hace en entornos controlados y legales. Las mismas técnicas que usan los atacantes son las que necesitan conocer los defensores.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(3)">
+          <div class="faq-question">
+            <h3>¿Qué certificaciones puedo obtener después?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 3" [class.fa-chevron-up]="faqAbierto === 3"></i>
+          </div>
+          @if (faqAbierto === 3) {
+            <div class="faq-answer">
+              <p>Con la base de esta especialización puedes prepararte para certificaciones como eJPT, CEH, OSCP, CompTIA Security+, CISSP o CISM. Son las más valoradas por las empresas del sector.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(4)">
+          <div class="faq-question">
+            <h3>¿Por qué hay tanta demanda de ciberseguridad?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 4" [class.fa-chevron-up]="faqAbierto === 4"></i>
+          </div>
+          @if (faqAbierto === 4) {
+            <div class="faq-answer">
+              <p>Los ciberataques aumentan un 35% cada año y las empresas tienen obligación legal de proteger sus datos. Hay más de 40.000 puestos sin cubrir en España porque no hay suficientes profesionales formados en seguridad.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>¿Listo para Convertirte en el Experto que Protege el Mundo Digital?</h2>
+      <p>Plazas limitadas — solicita información sin compromiso</p>
+      <div class="cta-buttons">
+        <button class="btn-primary-large" (click)="scrollToFormulario()">
+          <i class="fas fa-graduation-cap"></i> Solicitar Información
+        </button>
+        <button class="btn-secondary-large" (click)="descargarPDF()">
+          <i class="fas fa-file-pdf"></i> Descargar Dossier
+        </button>
+      </div>
+    </div>
+  </section>
+</article>
+
+<app-footer />

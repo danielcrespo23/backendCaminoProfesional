@@ -1,0 +1,12 @@
+@if (visible()) {
+  <div class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <h2>¡Bienvenido a Camino Profesional!</h2>
+      <p>¿Deseas activar la asistencia por voz para escuchar el contenido de la web?</p>
+      <div class="modal-buttons">
+        <button class="cta-button" (click)="activar()">Sí, activar voz</button>
+        <button class="cta-button btn-secundario" (click)="cerrar()">No, gracias</button>
+      </div>
+    </div>
+  </div>
+}

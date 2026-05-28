@@ -1,0 +1,12 @@
+/* Estilos del componente de comentarios */
+/* Los estilos principales están definidos inline en el template */
+
+.zona-comentarios textarea:focus {
+  outline: 2px solid #2e9fff;
+  border-color: #2e9fff;
+}
+
+.zona-comentarios button:hover {
+  background-color: #1a8ae8 !important;
+  transition: background-color 0.2s ease;
+}

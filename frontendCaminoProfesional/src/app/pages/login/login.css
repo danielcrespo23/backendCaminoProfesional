@@ -1,0 +1,122 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-card h1 {
+  color: #004374;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.login-card p {
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: #f7a500;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover:not(:disabled) {
+  background: #ffb733;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.mensaje-error {
+  margin-top: 20px;
+  padding: 12px;
+  background: #ffebee;
+  color: #c62828;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.link-registro {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.link-registro a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-registro a:hover {
+  text-decoration: underline;
+}
+
+.info-admin {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.info-admin p {
+  margin: 5px 0;
+  text-align: left;
+}
+
+.info-admin code {
+  background: #e0e0e0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}

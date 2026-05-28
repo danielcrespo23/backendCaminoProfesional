@@ -1,0 +1,377 @@
+<app-header />
+
+<article>
+  <!-- HERO -->
+  <section class="hero-grado">
+    <video autoplay muted loop playsinline class="video-fondo">
+      <source src="videosPaginas/videoBigData.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content-grado">
+      <h1>Big Data y Análisis de Datos</h1>
+      <p class="hero-subtitle">Transforma millones de datos en decisiones empresariales estratégicas con las tecnologías más potentes</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <i class="fas fa-clock"></i>
+          <span>1 año</span>
+          <small>Duración</small>
+        </div>
+        <div class="stat">
+          <i class="fas fa-briefcase"></i>
+          <span>96%</span>
+          <small>Empleabilidad</small>
+        </div>
+        <div class="stat">
+          <i class="fas fa-euro-sign"></i>
+          <span>33-60k€</span>
+          <small>Salario inicial</small>
+        </div>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn-primary" (click)="scrollToFormulario()">Solicitar información</button>
+        <button class="btn-secondary" (click)="descargarPDF()">
+          <i class="fas fa-download"></i> Ver temario
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUÉ ES -->
+  <section class="que-es">
+    <div class="container">
+      <div class="grid-2col">
+        <div class="texto">
+          <h2>¿Qué es la Especialización en Big Data?</h2>
+          <p>
+            La <strong>Especialización en Big Data y Análisis de Datos</strong> está diseñada para
+            titulados en informática que quieren dominar el procesamiento y análisis de volúmenes
+            masivos de datos para generar valor de negocio.
+          </p>
+          <p>
+            Aprenderás a construir <strong>pipelines de datos</strong>, usar el ecosistema <strong>Hadoop/Spark</strong>
+            y crear visualizaciones que convierten datos brutos en insights estratégicos para las empresas.
+          </p>
+          <div class="tecnologias">
+            <h3>Tecnologías que dominarás:</h3>
+            <div class="tech-badges">
+              <span class="badge">Python</span>
+              <span class="badge">Apache Spark</span>
+              <span class="badge">Hadoop</span>
+              <span class="badge">MongoDB</span>
+              <span class="badge">Kafka</span>
+              <span class="badge">Tableau</span>
+              <span class="badge">Power BI</span>
+              <span class="badge">AWS</span>
+              <span class="badge">SQL avanzado</span>
+              <span class="badge">Airflow</span>
+            </div>
+          </div>
+        </div>
+        <div class="imagen">
+          <img src="imagenesgrados/ANALISTAS.webp" alt="Big Data y Análisis de Datos">
+          <div class="destacado">
+            <i class="fas fa-database"></i>
+            <p>"Se generan 2,5 quintillones de bytes de datos al día — alguien tiene que procesarlos"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULOS -->
+  <section class="plan-estudios">
+    <div class="container">
+      <h2>Módulos de la Especialización</h2>
+      <p class="subtitulo">Un año intensivo para dominar el ciclo completo del dato</p>
+
+      <div class="modulos-grid">
+        <div class="modulo-card" (click)="toggleModulo('bd1')">
+          <div class="modulo-icon"><i class="fas fa-database"></i></div>
+          <h3>Gestión de Datos Masivos</h3>
+          <p class="modulo-horas">80 horas</p>
+          @if (moduloAbierto === 'bd1') {
+            <div class="modulo-detalle">
+              <p>Arquitecturas de almacenamiento y bases de datos NoSQL.</p>
+              <ul>
+                <li>MongoDB, Cassandra, HBase</li>
+                <li>Data Warehouses y Data Lakes</li>
+                <li>Arquitecturas Lambda y Kappa</li>
+                <li>HDFS y almacenamiento distribuido</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card highlight" (click)="toggleModulo('bd2')">
+          <div class="modulo-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Ecosistema Hadoop y Spark</h3>
+          <p class="modulo-horas">100 horas</p>
+          @if (moduloAbierto === 'bd2') {
+            <div class="modulo-detalle">
+              <p>Procesamiento distribuido de grandes volúmenes de datos.</p>
+              <ul>
+                <li>HDFS y YARN</li>
+                <li>MapReduce con Python</li>
+                <li>Apache Spark y PySpark</li>
+                <li>Spark Streaming en tiempo real</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card highlight" (click)="toggleModulo('bd3')">
+          <div class="modulo-icon"><i class="fas fa-stream"></i></div>
+          <h3>Ingesta y Pipelines de Datos</h3>
+          <p class="modulo-horas">80 horas</p>
+          @if (moduloAbierto === 'bd3') {
+            <div class="modulo-detalle">
+              <p>Diseño de flujos de datos de extremo a extremo.</p>
+              <ul>
+                <li>Apache Kafka para streaming</li>
+                <li>Apache Airflow para orquestación</li>
+                <li>ETL/ELT con Python</li>
+                <li>dbt para transformación</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card" (click)="toggleModulo('bd4')">
+          <div class="modulo-icon"><i class="fas fa-chart-pie"></i></div>
+          <h3>Business Intelligence y Visualización</h3>
+          <p class="modulo-horas">80 horas</p>
+          @if (moduloAbierto === 'bd4') {
+            <div class="modulo-detalle">
+              <p>Creación de dashboards y reporting estratégico.</p>
+              <ul>
+                <li>Power BI avanzado</li>
+                <li>Tableau Desktop</li>
+                <li>Looker y Metabase</li>
+                <li>KPIs y storytelling con datos</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card" (click)="toggleModulo('bd5')">
+          <div class="modulo-icon"><i class="fas fa-cloud"></i></div>
+          <h3>Infraestructura Cloud para Big Data</h3>
+          <p class="modulo-horas">60 horas</p>
+          @if (moduloAbierto === 'bd5') {
+            <div class="modulo-detalle">
+              <p>Despliegue de soluciones Big Data en la nube.</p>
+              <ul>
+                <li>AWS (S3, Glue, Redshift, EMR)</li>
+                <li>Google BigQuery</li>
+                <li>Azure Synapse Analytics</li>
+                <li>Databricks en cloud</li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        <div class="modulo-card proyecto" (click)="toggleModulo('bd6')">
+          <div class="modulo-icon"><i class="fas fa-project-diagram"></i></div>
+          <h3>Proyecto Final de Big Data</h3>
+          <p class="modulo-horas">60 horas</p>
+          @if (moduloAbierto === 'bd6') {
+            <div class="modulo-detalle">
+              <p>Pipeline completo de datos con análisis y visualización final.</p>
+              <ul>
+                <li>Ingesta de datos reales</li>
+                <li>Procesamiento con Spark</li>
+                <li>Dashboard en Power BI</li>
+                <li>Presentación ejecutiva</li>
+              </ul>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALIDAS LABORALES -->
+  <section class="salidas-laborales">
+    <div class="container">
+      <h2>Salidas Profesionales</h2>
+      <p class="subtitulo">Perfiles clave para empresas que toman decisiones basadas en datos</p>
+
+      <div class="salidas-grid">
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-cogs"></i>
+            <h3>Data Engineer</h3>
+          </div>
+          <p class="salida-descripcion">Diseño y mantenimiento de pipelines y arquitecturas de datos en producción.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>38.000 - 62.000€/año</span></div>
+          <div class="demanda demanda-muy-alta"><i class="fas fa-fire"></i> Demanda crítica</div>
+          <div class="skills"><span>Spark</span><span>Kafka</span><span>Airflow</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-chart-bar"></i>
+            <h3>Data Analyst</h3>
+          </div>
+          <p class="salida-descripcion">Análisis de datos para extraer insights y apoyar decisiones empresariales.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>33.000 - 52.000€/año</span></div>
+          <div class="demanda demanda-muy-alta"><i class="fas fa-fire"></i> Demanda muy alta</div>
+          <div class="skills"><span>SQL</span><span>Power BI</span><span>Python</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-sitemap"></i>
+            <h3>Arquitecto de Big Data</h3>
+          </div>
+          <p class="salida-descripcion">Diseño de arquitecturas escalables para el procesamiento masivo de datos.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>45.000 - 75.000€/año</span></div>
+          <div class="demanda demanda-alta"><i class="fas fa-chart-line"></i> Demanda alta</div>
+          <div class="skills"><span>Hadoop</span><span>AWS</span><span>Databricks</span></div>
+        </div>
+
+        <div class="salida-card">
+          <div class="salida-header">
+            <i class="fas fa-chart-pie"></i>
+            <h3>Especialista en BI</h3>
+          </div>
+          <p class="salida-descripcion">Creación de cuadros de mando y reporting estratégico para dirección.</p>
+          <div class="salario"><i class="fas fa-euro-sign"></i><span>33.000 - 55.000€/año</span></div>
+          <div class="demanda demanda-alta"><i class="fas fa-chart-line"></i> Demanda alta</div>
+          <div class="skills"><span>Tableau</span><span>Power BI</span><span>Looker</span></div>
+        </div>
+      </div>
+
+      <div class="estadisticas">
+        <div class="stat-box">
+          <i class="fas fa-database"></i>
+          <h4>+8.000</h4>
+          <p>Ofertas de datos activas en España</p>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-trophy"></i>
+          <h4>96%</h4>
+          <p>Empleabilidad en el primer año</p>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-chart-line"></i>
+          <h4>+40%</h4>
+          <p>Crecimiento anual de la demanda</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonios">
+    <div class="container">
+      <h2>Experiencias de Nuestros Alumnos</h2>
+      <div class="testimonios-grid">
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"Venía de DAW y con Big Data encontré mi vocación. Ahora construyo pipelines que procesan millones de registros al día. El salto salarial fue brutal."</p>
+          <p class="nombre">Roberto A.</p>
+          <p class="puesto">Data Engineer en empresa de retail online</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"El módulo de Power BI y Tableau me dio todo lo que necesitaba. Ahora presento datos a dirección general cada semana. Jamás pensé que llegaría aquí."</p>
+          <p class="nombre">Silvia N.</p>
+          <p class="puesto">BI Specialist en multinacional farmacéutica</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </div>
+        <div class="testimonio-card">
+          <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+          <p class="texto">"El proyecto final con Spark y AWS fue lo que me diferenció en las entrevistas. Tener algo real y en producción vale más que cualquier certificado."</p>
+          <p class="nombre">Diego M.</p>
+          <p class="puesto">Cloud Data Engineer en consultora tecnológica</p>
+          <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <h2>Preguntas Frecuentes</h2>
+      <div class="faq-list">
+        <div class="faq-item" (click)="toggleFAQ(1)">
+          <div class="faq-question">
+            <h3>¿Qué titulación previa necesito?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 1" [class.fa-chevron-up]="faqAbierto === 1"></i>
+          </div>
+          @if (faqAbierto === 1) {
+            <div class="faq-answer">
+              <p>Necesitas un Grado Superior de FP en informática (DAW, DAM, ASIR) o titulación universitaria en informática, matemáticas o estadística. Se requiere base técnica previa en programación.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(2)">
+          <div class="faq-question">
+            <h3>¿Necesito saber estadística?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 2" [class.fa-chevron-up]="faqAbierto === 2"></i>
+          </div>
+          @if (faqAbierto === 2) {
+            <div class="faq-answer">
+              <p>Ayuda tener nociones básicas de estadística descriptiva, pero no es imprescindible. El curso cubre los conceptos estadísticos necesarios en el contexto del análisis de datos.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(3)">
+          <div class="faq-question">
+            <h3>¿En qué sectores trabajan los egresados?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 3" [class.fa-chevron-up]="faqAbierto === 3"></i>
+          </div>
+          @if (faqAbierto === 3) {
+            <div class="faq-answer">
+              <p>Banca, seguros, retail, telecomunicaciones, salud, logística, administración pública y cualquier empresa con grandes volúmenes de datos. Es una especialización transversal a todos los sectores.</p>
+            </div>
+          }
+        </div>
+
+        <div class="faq-item" (click)="toggleFAQ(4)">
+          <div class="faq-question">
+            <h3>¿Cuánto tiempo tarda en encontrarse trabajo?</h3>
+            <i class="fas" [class.fa-chevron-down]="faqAbierto !== 4" [class.fa-chevron-up]="faqAbierto === 4"></i>
+          </div>
+          @if (faqAbierto === 4) {
+            <div class="faq-answer">
+              <p>La mayoría de alumnos encuentran trabajo antes de terminar o en el primer mes tras finalizar. La demanda supera con creces la oferta de perfiles formados en Big Data.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>¿Listo para Dar Valor a los Datos que Mueven el Mundo?</h2>
+      <p>Plazas limitadas — solicita información sin compromiso</p>
+      <div class="cta-buttons">
+        <button class="btn-primary-large" (click)="scrollToFormulario()">
+          <i class="fas fa-graduation-cap"></i> Solicitar Información
+        </button>
+        <button class="btn-secondary-large" (click)="descargarPDF()">
+          <i class="fas fa-file-pdf"></i> Descargar Dossier
+        </button>
+      </div>
+    </div>
+  </section>
+</article>
+
+<app-footer />
