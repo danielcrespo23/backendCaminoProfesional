@@ -152,6 +152,29 @@ class AccesoDatos {
         return $stmt->execute();
     }
 
+    // Obtener los IDs de cursos comprados por un usuario
+    public function getComprasUsuario($usuario_id) {
+        $query = "SELECT curso_id FROM compras WHERE usuario_id = :usuario_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_OBJ);
+        return array_map(fn($r) => (int)$r->curso_id, $rows);
+    }
+
+    // Registrar compra de uno o varios cursos (ignora duplicados)
+    public function comprarCursos($usuario_id, $curso_ids) {
+        $stmt = $this->conn->prepare(
+            "INSERT IGNORE INTO compras (usuario_id, curso_id) VALUES (:usuario_id, :curso_id)"
+        );
+        foreach ($curso_ids as $curso_id) {
+            $stmt->bindValue(':usuario_id', $usuario_id, PDO::PARAM_INT);
+            $stmt->bindValue(':curso_id', $curso_id, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+        return true;
+    }
+
     // Obtener todas las solicitudes de información
     public function getTodasLasSolicitudes() {
         $query = "SELECT id, usuario_id, nombre, apellido, email, telefono, grados, fecha_solicitud
