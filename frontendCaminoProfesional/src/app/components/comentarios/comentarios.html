@@ -1,76 +1,124 @@
 <div class="zona-comentarios" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif;">
 
   <h2 style="color: #2e9fff; margin-bottom: 20px;">
-    💬 Comentarios ({{ comentarios.length }})
+    💬 Comentarios ({{ obtenerComentariosPrincipales().length }})
     <span style="font-size: 0.7em; color: #666;">⭐ Destacados</span>
   </h2>
 
   <!-- Área de escritura para usuarios logueados -->
-  <div *ngIf="isLoggedIn; else loginPrompt" style="display: flex; gap: 12px; margin-bottom: 28px;">
-    <img [src]="'https://ui-avatars.com/api/?name=' + nombreUsuario + '&background=2e9fff&color=fff'"
-         style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;"
-         [alt]="nombreUsuario">
-    <div style="flex: 1;">
-      <textarea
-        name="texto_comentario"
-        [(ngModel)]="nuevoComentario"
-        placeholder="Deja tu comentario..."
-        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
-               resize: vertical; min-height: 80px; box-sizing: border-box; font-family: inherit;">
-      </textarea>
-      <button
-        (click)="enviarComentario()"
-        style="margin-top: 8px; background: #2e9fff; color: white; border: none;
-               padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em;">
-        Publicar
-      </button>
+  @if (isLoggedIn) {
+    <div style="display: flex; gap: 12px; margin-bottom: 28px;">
+      <img [src]="'https://ui-avatars.com/api/?name=' + nombreUsuario + '&background=2e9fff&color=fff'"
+           style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;"
+           [alt]="nombreUsuario">
+      <div style="flex: 1;">
+        <textarea name="texto_comentario" [(ngModel)]="nuevoComentario"
+          placeholder="Deja tu comentario..."
+          style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
+                 resize: vertical; min-height: 80px; box-sizing: border-box; font-family: inherit;">
+        </textarea>
+        <button (click)="enviarComentario()"
+          style="margin-top: 8px; background: #2e9fff; color: white; border: none;
+                 padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em;">
+          Publicar
+        </button>
+      </div>
     </div>
-  </div>
-
-  <!-- Bloque para usuarios no logueados -->
-  <ng-template #loginPrompt>
-    <div style="background: #f5f5f5; padding: 16px; border-radius: 8px;
-                margin-bottom: 28px; text-align: center;">
-      <p style="color: #666; margin: 0 0 12px;">
-        Debes iniciar sesión para participar en la conversación...
-      </p>
-      <button
-        (click)="irAlLogin()"
-        style="background: #2e9fff; color: white; border: none;
-               padding: 8px 20px; border-radius: 6px; cursor: pointer;">
+  } @else {
+    <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; margin-bottom: 28px; text-align: center;">
+      <p style="color: #666; margin: 0 0 12px;">Debes iniciar sesión para participar en la conversación...</p>
+      <button (click)="irAlLogin()"
+        style="background: #2e9fff; color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer;">
         Log in
       </button>
     </div>
-  </ng-template>
+  }
 
   <!-- Estado vacío -->
-  <div *ngIf="comentarios.length === 0"
-       style="color: #999; text-align: center; padding: 24px;">
-    No hay comentarios todavía. ¡Sé el primero!
-  </div>
-
-  <!-- Lista de comentarios -->
-  <div *ngFor="let c of comentarios"
-       style="display: flex; gap: 12px; margin-bottom: 20px;
-              padding-bottom: 16px; border-bottom: 1px solid #eee; position: relative;">
-    <img [src]="'https://ui-avatars.com/api/?name=' + c.NOMBRE + '&background=2e9fff&color=fff'"
-         style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;"
-         [alt]="c.NOMBRE">
-    <div style="flex-grow: 1;">
-      <strong style="color: #2e9fff; cursor: pointer;">{{ c.NOMBRE }}</strong>
-      <span style="color: #999; font-size: 0.85em; margin-left: 10px;">
-        {{ c.fecha_creacion | date:'mediumDate' }}
-      </span>
-      <p style="margin: 6px 0 10px; color: #333;">{{ c.texto_comentario }}</p>
-
-      <button
-        *ngIf="nombreUsuario === 'admin' || nombreUsuario === 'Administrador' || nombreUsuario === 'ADMIN'"
-        (click)="borrarComentario(c.id)"
-        style="background: #ff4757; color: white; border: none; padding: 4px 10px;
-               border-radius: 4px; cursor: pointer; font-size: 0.8em;">
-        🗑️ Borrar
-      </button>
+  @if (obtenerComentariosPrincipales().length === 0) {
+    <div style="color: #999; text-align: center; padding: 24px;">
+      No hay comentarios todavía. ¡Sé el primero!
     </div>
-  </div>
+  }
+
+  <!-- Lista de comentarios principales -->
+  @for (c of obtenerComentariosPrincipales(); track c.id) {
+    <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #eee;">
+
+      <!-- Comentario principal -->
+      <div style="display: flex; gap: 12px;">
+        <img [src]="'https://ui-avatars.com/api/?name=' + c.NOMBRE + '&background=2e9fff&color=fff'"
+             style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;"
+             [alt]="c.NOMBRE">
+        <div style="flex-grow: 1;">
+          <strong style="color: #2e9fff;">{{ c.NOMBRE }}</strong>
+          <span style="color: #999; font-size: 0.85em; margin-left: 10px;">{{ c.fecha_creacion | date:'mediumDate' }}</span>
+          <p style="margin: 6px 0 10px; color: #333;">{{ c.texto_comentario }}</p>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            @if (isLoggedIn) {
+              <button (click)="toggleReplyBox(c.id)"
+                style="background: none; border: none; color: #666; cursor: pointer; font-size: 0.85em; padding: 0;">
+                ↩️ Responder
+              </button>
+            }
+            @if (auth.esAdmin()) {
+              <button (click)="borrarComentario(c.id)"
+                style="background: none; border: none; color: #ff4757; cursor: pointer; font-size: 0.85em; padding: 0;">
+                🗑️ Borrar
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Caja de respuesta -->
+      @if (activeReplyId === c.id) {
+        <div style="display: flex; gap: 12px; margin-top: 15px; margin-left: 52px;
+                    background: #fdfdfd; padding: 12px; border: 1px dashed #2e9fff; border-radius: 8px;">
+          <div style="flex: 1;">
+            <textarea [(ngModel)]="nuevaRespuesta"
+              [placeholder]="'Respondiendo a ' + c.NOMBRE + '...'"
+              style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px;
+                     min-height: 60px; box-sizing: border-box; font-family: inherit; font-size: 0.9em;">
+            </textarea>
+            <div style="margin-top: 6px; display: flex; gap: 8px;">
+              <button (click)="enviarRespuesta(c.id)"
+                style="background: #2e9fff; color: white; border: none; padding: 6px 14px;
+                       border-radius: 4px; cursor: pointer; font-size: 0.85em;">
+                Enviar respuesta
+              </button>
+              <button (click)="toggleReplyBox(c.id)"
+                style="background: #e0e0e0; color: #333; border: none; padding: 6px 14px;
+                       border-radius: 4px; cursor: pointer; font-size: 0.85em;">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Respuestas anidadas -->
+      @for (r of obtenerRespuestas(c.id); track r.id) {
+        <div style="display: flex; gap: 12px; margin-top: 14px; margin-left: 52px;
+                    background: #f8f9fa; padding: 12px; border-radius: 8px; border-left: 3px solid #2e9fff;">
+          <img [src]="'https://ui-avatars.com/api/?name=' + r.NOMBRE + '&background=4a69bd&color=fff'"
+               style="width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;"
+               [alt]="r.NOMBRE">
+          <div style="flex-grow: 1;">
+            <strong style="color: #4a69bd; font-size: 0.95em;">{{ r.NOMBRE }}</strong>
+            <span style="color: #aaa; font-size: 0.8em; margin-left: 8px;">{{ r.fecha_creacion | date:'mediumDate' }}</span>
+            <p style="margin: 4px 0 6px; color: #444; font-size: 0.95em;">{{ r.texto_comentario }}</p>
+            @if (auth.esAdmin()) {
+              <button (click)="borrarComentario(r.id)"
+                style="background: none; border: none; color: #ff4757; cursor: pointer; font-size: 0.8em; padding: 0;">
+                🗑️ Borrar respuesta
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+    </div>
+  }
 
 </div>

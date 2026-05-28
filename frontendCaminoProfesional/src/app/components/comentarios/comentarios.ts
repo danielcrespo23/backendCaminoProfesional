@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Auth } from '../../services/auth';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-comentarios',
@@ -12,12 +14,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./comentarios.css']
 })
 export class Comentarios implements OnInit {
+  @Output() comentariosCambiaron = new EventEmitter<void>();
+
+  auth = inject(Auth);
+
   comentarios: any[] = [];
   nuevoComentario: string = '';
   isLoggedIn: boolean = false;
   nombreUsuario: string = '';
+  activeReplyId: number | null = null;
+  nuevaRespuesta: string = '';
 
-  // 👉 Apunta al backend PHP en XAMPP
   private apiUrl = 'http://localhost/backend/api';
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -38,9 +45,7 @@ export class Comentarios implements OnInit {
             this.isLoggedIn = false;
           }
         },
-        error: () => {
-          this.isLoggedIn = false;
-        }
+        error: () => { this.isLoggedIn = false; }
       });
   }
 
@@ -49,51 +54,86 @@ export class Comentarios implements OnInit {
     this.http.get<any[]>(urlSinCache, { withCredentials: true })
       .subscribe({
         next: (data) => {
-          this.comentarios = data;
+          this.comentarios = data.map(c => ({
+            ...c,
+            parent_id: c.parent_id ?? c.PARENT_ID ?? null
+          }));
         },
-        error: (err) => {
-          console.error('Error al cargar comentarios:', err);
-        }
+        error: (err) => console.error('Error al cargar comentarios:', err)
       });
   }
 
-  borrarComentario(id: any): void {
-    if (confirm('¿Estás seguro de que quieres borrar este comentario?')) {
-      this.http.delete(`${this.apiUrl}/borrar_comentario.php?id=${id}`, { withCredentials: true })
-        .subscribe({
-          next: (respuesta: any) => {
-            console.log('Comentario borrado:', respuesta);
-            this.cargarComentarios();
-          },
-          error: (err) => {
-            console.error('Error al borrar:', err);
-            alert('Hubo un error al borrar el comentario.');
-          }
-        });
-    }
+  obtenerComentariosPrincipales(): any[] {
+    return this.comentarios.filter(c => !c.parent_id);
+  }
+
+  obtenerRespuestas(idPrincipal: number): any[] {
+    return this.comentarios.filter(c => Number(c.parent_id) === Number(idPrincipal));
+  }
+
+  toggleReplyBox(id: number): void {
+    this.activeReplyId = this.activeReplyId === id ? null : id;
+    this.nuevaRespuesta = '';
   }
 
   enviarComentario(): void {
     if (!this.nuevoComentario.trim()) return;
-
-    const body = { texto_comentario: this.nuevoComentario };
-
-    this.http.post<any>(`${this.apiUrl}/guardar_comentario.php`, body, { withCredentials: true })
+    this.http.post<any>(`${this.apiUrl}/guardar_comentario.php`, { texto_comentario: this.nuevoComentario }, { withCredentials: true })
       .subscribe({
         next: (res) => {
           if (res.success) {
-            this.comentarios.unshift({
-              NOMBRE: this.nombreUsuario,
-              texto_comentario: this.nuevoComentario,
-              fecha_creacion: new Date().toISOString()
-            });
             this.nuevoComentario = '';
+            this.cargarComentarios();
+            this.comentariosCambiaron.emit();
           }
         },
-        error: (err) => {
-          console.error('Error al enviar comentario:', err);
-        }
+        error: (err) => console.error('Error al enviar comentario:', err)
       });
+  }
+
+  enviarRespuesta(parentId: number): void {
+    if (!this.nuevaRespuesta.trim()) return;
+    this.http.post<any>(
+      `${this.apiUrl}/guardar_comentario.php`,
+      { texto_comentario: this.nuevaRespuesta, parent_id: parentId },
+      { withCredentials: true }
+    ).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.nuevaRespuesta = '';
+          this.activeReplyId = null;
+          this.cargarComentarios();
+          this.comentariosCambiaron.emit();
+        }
+      },
+      error: (err) => console.error('Error al enviar respuesta:', err)
+    });
+  }
+
+  borrarComentario(id: any): void {
+    Swal.fire({
+      title: '¿Borrar comentario?',
+      text: 'Esta acción es irreversible.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ff4757',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.comentarios = this.comentarios.filter(c => c.id !== id && c.id !== String(id));
+        this.comentariosCambiaron.emit();
+        this.http.delete(`${this.apiUrl}/borrar_comentario.php?id=${id}`, { withCredentials: true })
+          .subscribe({
+            next: () => {},
+            error: () => {
+              this.cargarComentarios();
+              this.comentariosCambiaron.emit();
+            }
+          });
+      }
+    });
   }
 
   irAlLogin(): void {

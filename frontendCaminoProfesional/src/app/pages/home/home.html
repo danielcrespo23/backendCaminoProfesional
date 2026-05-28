@@ -37,6 +37,7 @@
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Ciclo de interés</th>
+                    <th>Rol</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -48,10 +49,56 @@
                       <td>{{ u.email }}</td>
                       <td>{{ u.telefono || '—' }}</td>
                       <td>{{ u.grados || '—' }}</td>
+                      <!-- Columna ROL -->
                       <td style="text-align: center;">
-                        <button (click)="borrarUsuario(u.email, u.nombre)" style="background: none; border: none; color: #ff4757; cursor: pointer; font-size: 1.2rem;" title="Borrar usuario">
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
+                        @if ($any(u).rol === 'superadmin') {
+                          <span style="color: #2e9fff; font-size: 0.8em; font-weight: bold; background: #e6f2ff; padding: 4px 8px; border-radius: 4px;">👑 Super Admin</span>
+                        } @else if ($any(u).rol === 'admin') {
+                          <span style="color: #f39c12; font-size: 0.8em; font-weight: bold; background: #fff3cd; padding: 4px 8px; border-radius: 4px;">🛡️ Admin</span>
+                        } @else {
+                          <span style="color: #666; font-size: 0.8em; background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">Usuario</span>
+                        }
+                      </td>
+                      <!-- Columna ACCIONES -->
+                      <td style="text-align: center; white-space: nowrap;">
+
+                        <!-- Usuario normal → puede ser admin -->
+                        @if ($any(u).rol === 'user') {
+                          <button (click)="hacerAdmin(u.email, u.nombre)"
+                            style="background:none;border:none;color:#2ecc71;cursor:pointer;font-size:1.2rem;margin-right:8px;"
+                            title="Hacer Admin"><i class="fas fa-user-shield"></i></button>
+                        }
+
+                        <!-- Admin normal → solo superadmin puede ascenderlo o degradarlo -->
+                        @if ($any(u).rol === 'admin' && esSuperAdmin()) {
+                          <button (click)="hacerSuperAdmin(u.email, u.nombre)"
+                            style="background:none;border:none;color:#2e9fff;cursor:pointer;font-size:1.2rem;margin-right:8px;"
+                            title="Hacer Super Admin"><i class="fas fa-crown"></i></button>
+                          <button (click)="quitarAdmin(u.email, u.nombre)"
+                            style="background:none;border:none;color:#f39c12;cursor:pointer;font-size:1.2rem;margin-right:8px;"
+                            title="Quitar Admin"><i class="fas fa-user-times"></i></button>
+                        }
+
+                        <!-- Superadmin → solo otro superadmin puede degradarlo, nunca a sí mismo -->
+                        @if ($any(u).rol === 'superadmin' && esSuperAdmin() && u.email !== auth.usuario()?.email) {
+                          <button (click)="degradarSuperAdmin(u.email, u.nombre)"
+                            style="background:none;border:none;color:#e67e22;cursor:pointer;font-size:1.2rem;margin-right:8px;"
+                            title="Quitar Super Admin"><i class="fas fa-user-minus"></i></button>
+                        }
+
+                        <!-- Borrar: cualquier admin puede borrar usuarios normales;
+                             superadmin puede borrar admins; nadie puede borrarse a sí mismo -->
+                        @if (u.email !== auth.usuario()?.email && $any(u).rol !== 'superadmin') {
+                          <button (click)="borrarUsuario(u.email, u.nombre)"
+                            style="background:none;border:none;color:#ff4757;cursor:pointer;font-size:1.2rem;"
+                            title="Borrar usuario"><i class="fas fa-trash-alt"></i></button>
+                        }
+                        @if (u.email !== auth.usuario()?.email && $any(u).rol === 'superadmin' && esSuperAdmin()) {
+                          <button (click)="borrarUsuario(u.email, u.nombre)"
+                            style="background:none;border:none;color:#ff4757;cursor:pointer;font-size:1.2rem;"
+                            title="Borrar superadmin"><i class="fas fa-trash-alt"></i></button>
+                        }
+
                       </td>
                     </tr>
                   }
@@ -135,6 +182,38 @@
               </table>
             </div>
           }
+          <div style="margin-top: 40px; margin-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.1);"></div>
+
+          <h3 style="color: #fff; margin-bottom: 5px; font-size: 1.3rem; border-left: 4px solid #00b894; padding-left: 10px;">Compras de cursos</h3>
+          <p class="admin-subtitulo">{{ comprasAdmin().length }} compra(s) registrada(s)</p>
+
+          @if (comprasAdmin().length === 0) {
+            <p class="admin-vacio">No hay compras registradas todavía.</p>
+          } @else {
+            <div class="tabla-scroll">
+              <table class="admin-tabla">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Curso</th>
+                    <th>Fecha de compra</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (c of comprasAdmin(); track $index) {
+                    <tr>
+                      <td>{{ c.nombre }}</td>
+                      <td>{{ c.email }}</td>
+                      <td>{{ nombreCurso(c.curso_id) }}</td>
+                      <td>{{ c.fecha_compra | date:'dd/MM/yyyy HH:mm' }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+
         </div>
       } @else if (auth.usuario(); as u) {
         <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; color: white;">
@@ -358,7 +437,7 @@
   </div>
 
   <app-carrusel></app-carrusel>
-  <app-comentarios></app-comentarios>
+  <app-comentarios (comentariosCambiaron)="cargarComentariosAdmin()"></app-comentarios>
 </article>
 
 <app-footer />

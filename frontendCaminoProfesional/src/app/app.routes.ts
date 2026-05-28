@@ -9,11 +9,13 @@ import { Bigdata } from './pages/bigdata/bigdata';
 import { Ia } from './pages/ia/ia';
 import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
+import { Cursos } from './pages/cursos/cursos';
 
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'cursos', component: Cursos },
   { path: 'daw', component: Daw },
   { path: 'dam', component: Dam },
   { path: 'asir', component: Asir },

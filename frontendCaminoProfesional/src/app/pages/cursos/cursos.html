@@ -1,0 +1,272 @@
+<app-header />
+
+<main class="cursos-page">
+
+  <!-- HERO -->
+  <section class="cursos-hero">
+    <div class="hero-content">
+      <span class="hero-badge"><i class="fas fa-graduation-cap"></i> Formación Online</span>
+      <h1>Impulsa tu carrera con nuestros cursos</h1>
+      <p>Accede a formación profesional de calidad impartida por expertos del sector. Aprende a tu ritmo con contenido siempre actualizado.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <strong>8</strong>
+          <span>Cursos disponibles</span>
+        </div>
+        <div class="hero-stat">
+          <strong>+24.000</strong>
+          <span>Alumnos formados</span>
+        </div>
+        <div class="hero-stat">
+          <strong>4.8★</strong>
+          <span>Valoración media</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <section class="filtros-section">
+    <div class="filtros-container">
+      <h2>Explora nuestros cursos</h2>
+      <div class="filtros-botones">
+        <button [class.activo]="filtroActivo() === 'todos'" (click)="setFiltro('todos')">
+          <i class="fas fa-th-large"></i> Todos
+        </button>
+        <button [class.activo]="filtroActivo() === 'lenguaje'" (click)="setFiltro('lenguaje')">
+          <i class="fas fa-code"></i> Lenguajes
+        </button>
+        <button [class.activo]="filtroActivo() === 'apuntes'" (click)="setFiltro('apuntes')">
+          <i class="fas fa-book-open"></i> Apuntes
+        </button>
+        <button [class.activo]="filtroActivo() === 'herramientas'" (click)="setFiltro('herramientas')">
+          <i class="fas fa-wrench"></i> Herramientas
+        </button>
+      </div>
+
+      @if (auth.isAuthenticated()) {
+        <button class="carrito-btn" (click)="mostrarCarrito.set(true)">
+          <i class="fas fa-shopping-cart"></i>
+          @if (contadorCarrito() > 0) {
+            <span class="carrito-badge">{{ contadorCarrito() }}</span>
+          }
+          Carrito
+        </button>
+      }
+    </div>
+  </section>
+
+  <!-- GRID DE CURSOS -->
+  <section class="cursos-grid-section">
+    <div class="cursos-grid">
+      @for (curso of cursosFiltrados; track curso.id) {
+        <div class="curso-card" (click)="abrirDetalle(curso)">
+          <div class="card-header" [style.background]="curso.colorHeader">
+            <i class="fas" [class]="curso.icono"></i>
+            <span class="categoria-badge" [class]="curso.categoria">
+              {{ curso.categoria === 'lenguaje' ? 'Lenguaje' : curso.categoria === 'apuntes' ? 'Apuntes' : 'Herramienta' }}
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="card-nivel" [class]="'nivel-' + curso.nivel.toLowerCase()">{{ curso.nivel }}</div>
+            <h3>{{ curso.titulo }}</h3>
+            <p>{{ curso.descripcion }}</p>
+            <div class="card-meta">
+              <span><i class="fas fa-clock"></i> {{ curso.duracion }}</span>
+              <span><i class="fas fa-users"></i> {{ curso.alumnos.toLocaleString() }} alumnos</span>
+            </div>
+            <div class="card-valoracion">
+              @for (e of estrellas(curso.valoracion); track $index) {
+                <i class="fas fa-star"></i>
+              }
+              <span>{{ curso.valoracion }}</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            @if (yaComprado(curso.id)) {
+              <button class="btn-descarga" (click)="$event.stopPropagation(); descargarPdf(curso.id)">
+                <i class="fas fa-file-pdf"></i> Descargar
+              </button>
+            } @else if (estaEnCarrito(curso.id)) {
+              <button class="btn-en-carrito" disabled (click)="$event.stopPropagation()">
+                <i class="fas fa-check"></i> En el carrito
+              </button>
+            } @else {
+              <button class="btn-inscribirse" (click)="$event.stopPropagation(); agregarAlCarrito(curso)">
+                @if (auth.isAuthenticated()) {
+                  <i class="fas fa-shopping-cart"></i> Añadir
+                } @else {
+                  <i class="fas fa-lock"></i> Inscribirte
+                }
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- MIS CURSOS -->
+  @if (auth.isAuthenticated() && cursosCompradosList().length > 0) {
+    <section class="mis-cursos-section">
+      <div class="mis-cursos-container">
+        <div class="mis-cursos-titulo">
+          <i class="fas fa-book-open"></i>
+          <div>
+            <h2>Mis cursos</h2>
+            <p>Material adquirido — descárgalo cuando quieras</p>
+          </div>
+        </div>
+        <div class="mis-cursos-grid">
+          @for (curso of cursosCompradosList(); track curso.id) {
+            <div class="mis-curso-card">
+              <div class="mis-curso-header" [style.background]="curso.colorHeader">
+                <i class="fas" [class]="curso.icono"></i>
+              </div>
+              <div class="mis-curso-body">
+                <span class="mis-curso-nivel" [class]="'nivel-' + curso.nivel.toLowerCase()">{{ curso.nivel }}</span>
+                <h4>{{ curso.titulo }}</h4>
+              </div>
+              <button class="btn-descargar-pdf" (click)="descargarPdf(curso.id)">
+                <i class="fas fa-file-pdf"></i> Descargar PDF
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- BANNER: solo para usuarios no logueados -->
+  @if (!auth.isAuthenticated()) {
+    <section class="banner-registro">
+      <div class="banner-content">
+        <i class="fas fa-user-shield"></i>
+        <div>
+          <h3>Regístrate para acceder a los cursos</h3>
+          <p>Crea tu cuenta gratuita o inicia sesión para poder inscribirte y acceder a todo el contenido exclusivo de la plataforma.</p>
+        </div>
+        <div class="banner-actions">
+          <a routerLink="/login" class="btn-login">Iniciar sesión</a>
+          <a routerLink="/register" class="btn-register">Crear cuenta gratis</a>
+        </div>
+      </div>
+    </section>
+  }
+
+</main>
+
+<!-- MODAL DETALLE DEL CURSO -->
+@if (cursoSeleccionado(); as curso) {
+  <div class="modal-overlay" (click)="cerrarDetalle()">
+    <div class="modal-curso" (click)="$event.stopPropagation()">
+      <button class="modal-cerrar" (click)="cerrarDetalle()"><i class="fas fa-times"></i></button>
+      <div class="modal-header" [style.background]="curso.colorHeader">
+        <i class="fas" [class]="curso.icono"></i>
+        <h2>{{ curso.titulo }}</h2>
+        <span class="modal-nivel">{{ curso.nivel }}</span>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">{{ curso.descripcion }}</p>
+        <div class="modal-info">
+          <div class="info-item">
+            <i class="fas fa-clock"></i>
+            <div>
+              <strong>Duración</strong>
+              <span>{{ curso.duracion }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-users"></i>
+            <div>
+              <strong>Alumnos</strong>
+              <span>{{ curso.alumnos.toLocaleString() }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-star" style="color:#f7a500"></i>
+            <div>
+              <strong>Valoración</strong>
+              <span>{{ curso.valoracion }} / 5</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-temario">
+          <h3><i class="fas fa-list-check"></i> Lo que aprenderás</h3>
+          <ul>
+            @for (tema of curso.temario; track $index) {
+              <li><i class="fas fa-check"></i> {{ tema }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        @if (yaComprado(curso.id)) {
+          <button class="btn-modal-descarga" (click)="descargarPdf(curso.id)">
+            <i class="fas fa-file-pdf"></i> Descargar PDF
+          </button>
+        } @else if (estaEnCarrito(curso.id)) {
+          <button class="btn-modal-en-carrito" disabled>
+            <i class="fas fa-check"></i> Ya en el carrito
+          </button>
+        } @else {
+          <button class="btn-modal-inscribir" (click)="agregarAlCarrito(curso, true)">
+            @if (auth.isAuthenticated()) {
+              <i class="fas fa-shopping-cart"></i> Añadir al carrito
+            } @else {
+              <i class="fas fa-lock"></i> Inicia sesión para comprar
+            }
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+}
+
+<!-- CARRITO PANEL -->
+@if (mostrarCarrito()) {
+  <div class="carrito-overlay" (click)="mostrarCarrito.set(false)"></div>
+  <div class="carrito-panel">
+    <div class="carrito-panel-header">
+      <h3><i class="fas fa-shopping-cart"></i> Mi carrito</h3>
+      <button class="carrito-cerrar" (click)="mostrarCarrito.set(false)">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="carrito-panel-body">
+      @if (contadorCarrito() === 0) {
+        <div class="carrito-vacio">
+          <i class="fas fa-cart-shopping"></i>
+          <p>Tu carrito está vacío</p>
+          <small>Añade cursos para continuar</small>
+        </div>
+      } @else {
+        <div class="carrito-items">
+          @for (item of carrito(); track item.id) {
+            <div class="carrito-item">
+              <div class="carrito-item-icono" [style.background]="item.colorHeader">
+                <i class="fas" [class]="item.icono"></i>
+              </div>
+              <div class="carrito-item-info">
+                <span class="carrito-item-titulo">{{ item.titulo }}</span>
+              </div>
+              <button class="carrito-item-quitar" (click)="quitarDelCarrito(item.id)" title="Quitar">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          }
+        </div>
+        <button class="btn-confirmar-compra" (click)="confirmarCompra()" [disabled]="comprando()">
+          @if (comprando()) {
+            <i class="fas fa-spinner fa-spin"></i> Procesando...
+          } @else {
+            <i class="fas fa-check-circle"></i> Confirmar compra
+          }
+        </button>
+        <p class="carrito-nota"><i class="fas fa-shield-alt"></i> Acceso de por vida · PDF descargable</p>
+      }
+    </div>
+  </div>
+}
+
+<app-footer />

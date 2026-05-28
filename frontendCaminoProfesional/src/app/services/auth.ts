@@ -10,6 +10,7 @@ export interface Usuario {
   telefono?: string;
   grados?: string;
   esAdmin: boolean;
+  esSuperAdmin?: boolean;
 }
 
 interface LoginResponse {
@@ -38,6 +39,7 @@ export class Auth {
   // Signals para reactividad
   usuario = signal<Usuario | null>(null);
   esAdmin = signal<boolean>(false);
+  esSuperAdmin = signal<boolean>(false);
   isAuthenticated = signal<boolean>(false);
 
   // BehaviorSubject para compatibilidad con guards
@@ -129,6 +131,7 @@ export class Auth {
   private setUserData(user: Usuario): void {
     this.usuario.set(user);
     this.esAdmin.set(user.esAdmin);
+    this.esSuperAdmin.set(user.esSuperAdmin ?? false);
     this.isAuthenticated.set(true);
     this.authStatus.next(true);
   }
@@ -136,6 +139,7 @@ export class Auth {
   private clearUserData(): void {
     this.usuario.set(null);
     this.esAdmin.set(false);
+    this.esSuperAdmin.set(false);
     this.isAuthenticated.set(false);
     this.authStatus.next(false);
   }
